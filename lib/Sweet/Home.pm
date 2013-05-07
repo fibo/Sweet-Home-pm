@@ -1,4 +1,7 @@
+use strict;
+use warnings;
 package Sweet::Home;
-use Moose;
+# ABSTRACT: Home sweet home
 
 1;
+
