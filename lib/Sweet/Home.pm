@@ -5,3 +5,9 @@ package Sweet::Home;
 
 1;
 
+=head1 DESCRIPTION
+
+Nothing is better than feel at home. Where is the home? The home is where I can feel comfortable (cit. Jovanotti).
+
+=cut
+
