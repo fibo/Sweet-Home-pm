@@ -25,14 +25,6 @@ has 'path' => (
     required => 1,
 );
 
-sub does_not_exists {
-    return ! -d shift->path;
-}
-
-sub is_a_directory {
-    return -d shift->path;
-}
-
 sub create {
     my $self = shift;
     my $path = $self->path;
@@ -43,6 +35,10 @@ sub create {
     make_path( $path, { error => \$make_path_error } );
 
     #TODO lancia eccezione, scrivi classe eccezioni, test e aggiorna synopsis
+}
+
+sub does_not_exists {
+    return !-d shift->path;
 }
 
 sub erase {
@@ -61,10 +57,13 @@ sub file {
     my $name = shift;
 
     #TODO try file
-    my $file = BI::File->new(dir=>$self, name=>$name);
+    my $file = Sweet::File->new( dir => $self, name => $name );
 
     return $file;
+}
 
+sub is_a_directory {
+    return -d shift->path;
 }
 
 #TODO sub file_list
@@ -75,11 +74,11 @@ sub sub_dir {
 
     my @path = @_;
 
-    # TODO try 
+    # TODO try
 
-    my $sub_dir_path = File::Spec->catfile($self->path, @path);
+    my $sub_dir_path = File::Spec->catfile( $self->path, @path );
 
-    my $sub_dir = BI::Dir->new(path=>$sub_dir_path);
+    my $sub_dir = BI::Dir->new( path => $sub_dir_path );
 
     return $sub_dir;
 }
