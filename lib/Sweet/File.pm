@@ -8,6 +8,7 @@ use File::Copy;
 use File::Spec;
 use File::Touch;
 use File::Remove 'remove';
+use MooseX::Types::Path::Class;
 
 has dir => (
     builder   => '_build_dir',
