@@ -106,6 +106,14 @@ sub copy_to_dir {
 #    #TODO usa move di File::Copy
 #}
 
+#TODO
+#sub copy_to_file {
+#    my $self = shift;
+#
+#    my $target_file = shift;
+#
+#}
+
 sub does_not_exists {
     return !-e shift->path;
 }
