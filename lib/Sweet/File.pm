@@ -1,4 +1,5 @@
 package Sweet::File;
+
 use Moose;
 use MooseX::StrictConstructor;
 

@@ -1,4 +1,5 @@
 package Sweet::HomeDir;
+
 use Moose;
 use MooseX::StrictConstructor;
 

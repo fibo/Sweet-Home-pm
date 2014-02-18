@@ -1,4 +1,5 @@
 package Sweet::Dir;
+
 use Moose;
 use namespace::autoclean;
 use MooseX::StrictConstructor;

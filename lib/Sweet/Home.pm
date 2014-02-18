@@ -1,7 +1,7 @@
 use strict;
 use warnings;
 package Sweet::Home;
-# ABSTRACT: Home sweet home
+# ABSTRACT: HomeDir, File, Path and other sweet classes
 
 1;
 

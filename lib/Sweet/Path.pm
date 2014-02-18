@@ -1,4 +1,5 @@
 package Sweet::Path;
+
 use Moose;
 use MooseX::StrictConstructor;
 
