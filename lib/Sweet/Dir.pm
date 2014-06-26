@@ -18,6 +18,8 @@ use Sweet::File;
 
 =cut
 
+# TODO Coerce Sweet::Dir to Path::Class::Dir
+
 has 'path' => (
     builder  => '_build_path',
     coerce   => 1,
@@ -79,7 +81,7 @@ sub sub_dir {
 
     my $sub_dir_path = File::Spec->catfile( $self->path, @path );
 
-    my $sub_dir = BI::Dir->new( path => $sub_dir_path );
+    my $sub_dir = Sweet::Dir->new( path => $sub_dir_path );
 
     return $sub_dir;
 }
