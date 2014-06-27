@@ -1,9 +1,14 @@
 use strict;
 use warnings;
 package Sweet::Home;
-# ABSTRACT: HomeDir, File, Path and other sweet classes
+
+our $VERSION = '0.1';
 
 1;
+
+=head1 NAME
+
+Sweet::Home - HomeDir, File, Path and other sweet classes
 
 =head1 DESCRIPTION
 

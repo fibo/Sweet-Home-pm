@@ -7,7 +7,8 @@ use Try::Tiny;
 
 use File::Copy;
 use File::Spec;
-use File::Touch;
+
+#use File::Touch;
 use File::Remove 'remove';
 use MooseX::Types::Path::Class;
 
