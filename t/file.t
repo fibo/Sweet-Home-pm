@@ -2,35 +2,8 @@ use strict;
 use warnings;
 use Sweet::Dir;
 use Test::More;
-use Test::Moose;
-use Test::use::ok;
 
-use ok 'Sweet::File';
-
-my $class = 'Sweet::File';
-
-my @attributes = qw(
-  dir
-  name
-  path
-);
-
-#TODO  create move_to_dir
-my @methods = qw(
-  copy_to_dir
-  does_not_exists
-  erase
-  has_zero_size
-  is_a_plain_file
-  is_executable
-  is_writable
-);
-
-can_ok( $class, $_ ) for @methods;
-
-has_attribute_ok( $class, $_ ) for @attributes;
-
-meta_ok $class;
+use Sweet::File;
 
 my $test_dir = Sweet::Dir->new( path => 't' );
 
