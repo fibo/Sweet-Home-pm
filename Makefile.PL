@@ -1,7 +1,7 @@
 use strict;
 use warnings;
 
-use ExtUtils::MakeMaker;
+use ExtUtils::MakeMaker 6.64;
 
 WriteMakefile(
     ABSTRACT_FROM => 'lib/Sweet/Home.pm',
