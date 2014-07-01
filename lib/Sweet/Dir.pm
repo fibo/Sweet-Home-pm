@@ -1,8 +1,19 @@
-package Sweet::Dir;
 
+=head1 NAME
+
+Sweet::Dir
+
+=head1 SYNOPSIS
+
+    use Sweet::Dir;
+
+    my $dir = Sweet::Dir->new(path => '/path/to/dir');
+    $dir->create;
+
+=cut
+
+package Sweet::Dir;
 use Moose;
-use namespace::autoclean;
-use MooseX::StrictConstructor;
 
 use Try::Tiny;
 
@@ -10,13 +21,6 @@ use MooseX::Types::Path::Class;
 use File::Path qw(make_path remove_tree);
 
 use Sweet::File;
-
-=head1 SYNOPSIS
-
-    my $dir = Sweet::Dir->new(path => '/path/to/dir');
-    $dir->create;
-
-=cut
 
 # TODO Coerce Sweet::Dir to Path::Class::Dir
 
@@ -65,9 +69,7 @@ sub file {
     return $file;
 }
 
-sub is_a_directory {
-    return -d shift->path;
-}
+sub is_a_directory { -d shift->path }
 
 #TODO sub file_list
 #

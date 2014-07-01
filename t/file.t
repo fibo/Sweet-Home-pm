@@ -2,6 +2,7 @@ use strict;
 use warnings;
 use Sweet::Dir;
 use Test::More;
+use File::Spec;
 
 use Sweet::File;
 
@@ -11,8 +12,11 @@ my $file = Sweet::File->new( name => 'file.t', dir => $test_dir );
 ok $file->is_a_plain_file;
 ok $file->is_writable;
 
+is "$file", catfile( 't', 'file.t' ), 'stringify to path';
+
 my $file_touched = Sweet::File->new( name => 'file_touched', dir => $test_dir );
 ok $file_touched->does_not_exists, 'touched file does not exists yet';
+
 # TODO ok $file_touched->create,          'touch file';
 #ok $file_touched->is_a_plain_file, 'touched filed exists';
 #$file_touched->erase;
