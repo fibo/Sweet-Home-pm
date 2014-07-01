@@ -15,7 +15,6 @@ WriteMakefile(
     'File::Remove'               => '0',
     'File::Spec'                 => '0',
     'Moose'                      => '2',
-    'MooseX::StrictConstructor'  => '0',
     'MooseX::Types::Path::Class' => '0.06',
   },
   test          => {TESTS           => 't/*.t'},
