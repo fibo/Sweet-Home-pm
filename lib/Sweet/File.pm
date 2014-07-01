@@ -46,8 +46,7 @@ has 'host' => (
     builder => '_build_host',
     is      => 'ro',
     isa     => 'Sweet::Host',
-    lazy    => 1
-    predicate => 'has_host',
+    lazy    => 1,
 );
 
 has 'path' => (
