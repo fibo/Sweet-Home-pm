@@ -2,7 +2,7 @@ use strict;
 use warnings;
 use Sweet::Dir;
 use Test::More;
-use File::Spec;
+use File::Spec qw(catfile);
 
 use Sweet::File;
 
