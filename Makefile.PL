@@ -9,6 +9,7 @@ WriteMakefile(
     AUTHOR        => 'G. Casati <fibo@cpan.org>',
     NAME          => 'Sweet-Home',
     PREREQ_PM     => {
+        'File::Basename'             => '0',
         'File::Copy'                 => '0',
         'File::HomeDir'              => '0',
         'File::Path'                 => '0',
@@ -20,6 +21,6 @@ WriteMakefile(
     test          => { TESTS => 't/*.t' },
     TEST_REQUIRES => {
         'Test::Compile' => '1.0.1',
-        'Test::More'    => '1.001003'
+        'Test::More'    => '1.001003',
     },
 );

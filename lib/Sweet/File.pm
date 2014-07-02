@@ -19,6 +19,7 @@ use Moose;
 
 use Try::Tiny;
 
+use File::Basename;
 use File::Copy;
 use File::Spec;
 
@@ -40,6 +41,21 @@ has 'name' => (
     isa       => 'Str',
     lazy      => 1,
     predicate => 'has_name',
+);
+
+has 'ext' => (
+    default=>sub{
+        my $self = shift;
+
+        my $path = $self->path;
+
+        my ( $filename, $dirname, $suffix ) = fileparse( $path, qr/\.[^.]*/ );
+
+        return $suffix;
+    },
+is=>'ro',
+isa=>'Str',
+lazy=>1,
 );
 
 has 'host' => (
