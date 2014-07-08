@@ -4,8 +4,8 @@ use warnings;
 use ExtUtils::MakeMaker 6.64;
 
 WriteMakefile(
-    ABSTRACT_FROM => 'lib/Sweet/Home.pm',
-    VERSION_FROM  => 'lib/Sweet/Home.pm',
+    ABSTRACT_FROM => 'lib/Sweet/Home.pod',
+    VERSION  => '0.1',
     AUTHOR        => 'G. Casati <fibo@cpan.org>',
     NAME          => 'Sweet-Home',
     PREREQ_PM     => {

@@ -21,10 +21,9 @@ use Try::Tiny;
 
 use File::Basename;
 use File::Copy;
+use File::Remove 'remove';
 use File::Spec;
 
-#use File::Touch;
-use File::Remove 'remove';
 use MooseX::Types::Path::Class;
 
 has 'dir' => (
@@ -49,20 +48,13 @@ has 'ext' => (
 
         my $path = $self->path;
 
-        my ( $filename, $dirname, $suffix ) = fileparse( $path, qr/\.[^.]*/ );
+        my ( $filename, $dirname, $suffix ) = fileparse( $path, qr/[^.]*$/ );
 
         return $suffix;
     },
 is=>'ro',
 isa=>'Str',
 lazy=>1,
-);
-
-has 'host' => (
-    builder => '_build_host',
-    is      => 'ro',
-    isa     => 'Sweet::Host',
-    lazy    => 1,
 );
 
 has 'path' => (
@@ -85,22 +77,6 @@ sub _build_path {
 
     return $path;
 }
-
-#TODO create
-#sub create {
-#    my $self = shift;
-#
-#    my $path = $self->path;
-#
-#    print $path, "\n";
-#
-#    try {
-#        touch($path);
-#    }
-#    catch {
-#        warn $_;
-#    };
-#}
 
 sub copy_to_dir {
     my $self = shift;

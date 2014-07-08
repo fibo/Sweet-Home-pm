@@ -50,6 +50,7 @@ sub does_not_exists {
 
 sub erase {
     my $self = shift;
+
     my $path = $self->path;
     my $remove_path_error;
 
