@@ -55,6 +55,7 @@ has 'ext' => (
 is=>'ro',
 isa=>'Str',
 lazy=>1,
+    predicate => 'has_ext',
 );
 
 has 'path' => (
