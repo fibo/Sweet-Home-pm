@@ -1,19 +1,3 @@
-
-=head1 NAME
-
-Sweet::File
-
-=head1 SYNOPSIS
-
-    use Sweet::File;
-
-    my $file = Sweet::File->new(
-        dir => '/path/to/dir',
-        name => 'foo',
-    );
-
-=cut
-
 package Sweet::File;
 use Moose;
 
@@ -43,7 +27,7 @@ has 'name' => (
 );
 
 has 'ext' => (
-    default=>sub{
+    default => sub {
         my $self = shift;
 
         my $path = $self->path;
@@ -52,9 +36,9 @@ has 'ext' => (
 
         return $suffix;
     },
-is=>'ro',
-isa=>'Str',
-lazy=>1,
+    is        => 'ro',
+    isa       => 'Str',
+    lazy      => 1,
     predicate => 'has_ext',
 );
 
@@ -146,4 +130,23 @@ use overload q("") => sub { shift->path };
 __PACKAGE__->meta->make_immutable;
 
 1;
+
+__END__
+
+=encoding utf8
+
+=head1 NAME
+
+Sweet::File
+
+=head1 SYNOPSIS
+
+    use Sweet::File;
+
+    my $file = Sweet::File->new(
+        dir => '/path/to/dir',
+        name => 'foo',
+    );
+
+=cut
 

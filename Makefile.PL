@@ -4,11 +4,20 @@ use warnings;
 use ExtUtils::MakeMaker 6.64;
 
 WriteMakefile(
-    ABSTRACT_FROM => 'lib/Sweet/Home.pod',
-    VERSION  => '0.1',
-    AUTHOR        => 'G. Casati <fibo@cpan.org>',
-    NAME          => 'Sweet-Home',
-    PREREQ_PM     => {
+    ABSTRACT_FROM    => 'lib/Sweet/Home.pm',
+    VERSION_FROM     => 'lib/Sweet/Home.pm',
+    AUTHOR           => 'G. Casati <fibo@cpan.org>',
+    NAME             => 'Sweet::Home',
+    MIN_PERL_VERSION => '5.8.0',
+    META_MERGE       => {
+        resources => {
+            homepage   => 'https://metacpan.org/pod/My::Package',
+            license    => 'http://g14n.info/artistic-license',
+            repository => 'http://github.com/fibo/Sweet-Home-pm',
+            bugtracker => 'http://github.com/fibo/Sweet-Home-pm/issues',
+        },
+    },
+    PREREQ_PM => {
         'File::Basename'             => '0',
         'File::Copy'                 => '0',
         'File::HomeDir'              => '0',
@@ -20,7 +29,9 @@ WriteMakefile(
     },
     test          => { TESTS => 't/*.t' },
     TEST_REQUIRES => {
-        'Test::Compile' => '1.0.1',
-        'Test::More'    => '1.001003',
-    },
+        'Test::Compile' => '1',
+        'Test::More'    => '1',
+        'Test::Pod'     => '1'
+    }
 );
+

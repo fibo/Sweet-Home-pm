@@ -1,17 +1,3 @@
-
-=head1 NAME
-
-Sweet::Dir
-
-=head1 SYNOPSIS
-
-    use Sweet::Dir;
-
-    my $dir = Sweet::Dir->new(path => '/path/to/dir');
-    $dir->create;
-
-=cut
-
 package Sweet::Dir;
 use Moose;
 
@@ -92,4 +78,21 @@ sub sub_dir {
 __PACKAGE__->meta->make_immutable;
 
 1;
+
+__END__
+
+=encoding utf8
+
+=head1 NAME
+
+Sweet::Dir
+
+=head1 SYNOPSIS
+
+    use Sweet::Dir;
+
+    my $dir = Sweet::Dir->new(path => '/path/to/dir');
+    $dir->create;
+
+=cut
 
