@@ -73,45 +73,28 @@ sub copy_to_dir {
         Sweet::File->new( dir => $dir, name => $name );
     }
     catch {
-        #TODO fai il throw
-        warn $_;
+        die $_;
     };
 
     my $source_path = $self->path;
     my $target_path = $file_copied->path;
 
     try {
-        #TODO questo dovrebbe farlo il create
         $dir->is_a_directory or $dir->create;
     }
     catch {
-        #TODO fai il throw
-        warn $_;
+        die $_;
     };
 
     try {
         copy( $source_path, $target_path );
     }
     catch {
-        #TODO fai il throw
-        warn $_;
+        die $_;
     };
 
     return $file_copied;
 }
-
-# TODO sub move_to_dir {
-#
-#    #TODO usa move di File::Copy
-#}
-
-#TODO
-#sub copy_to_file {
-#    my $self = shift;
-#
-#    my $target_file = shift;
-#
-#}
 
 sub does_not_exists { !-e shift->path }
 
@@ -147,6 +130,32 @@ Sweet::File
         dir => '/path/to/dir',
         name => 'foo',
     );
+
+=head1 ATTRIBUTES
+
+=head2 dir
+
+=head2 ext
+
+=head2 name
+
+=head2 path
+
+=head1 METHODS
+
+=head2 copy_to_dir
+
+=head2 does_not_exists
+
+=head2 erase
+
+=head2 has_zero_size
+
+=head2 is_a_plain_file
+
+=head2 is_executable
+
+=head2 is_writable
 
 =cut
 

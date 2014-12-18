@@ -5,10 +5,9 @@ use Try::Tiny;
 
 use MooseX::Types::Path::Class;
 use File::Path qw(make_path remove_tree);
+use Try::Tiny;
 
 use Sweet::File;
-
-# TODO Coerce Sweet::Dir to Path::Class::Dir
 
 has 'path' => (
     builder  => '_build_path',
@@ -25,9 +24,12 @@ sub create {
 
     return $self if $self->is_a_directory;
 
-    make_path( $path, { error => \$make_path_error } );
-
-    #TODO lancia eccezione, scrivi classe eccezioni, test e aggiorna synopsis
+    try {
+      make_path( $path, { error => \$make_path_error } );
+    }
+    catch {
+      die $make_path_error;
+    };
 }
 
 sub does_not_exists {
@@ -40,9 +42,12 @@ sub erase {
     my $path = $self->path;
     my $remove_path_error;
 
-    remove_path( $path, { error => \$remove_path_error } );
-
-    #TODO lancia eccezione, scrivi classe eccezioni, test e aggiorna synopsis
+    try {
+      remove_path( $path, { error => \$remove_path_error } );
+    }
+    catch {
+      die $remove_path_error;
+    };
 }
 
 sub file {
@@ -50,7 +55,6 @@ sub file {
 
     my $name = shift;
 
-    #TODO try file
     my $file = Sweet::File->new( dir => $self, name => $name );
 
     return $file;
@@ -58,15 +62,10 @@ sub file {
 
 sub is_a_directory { -d shift->path }
 
-#TODO sub file_list
-#
-
 sub sub_dir {
     my $self = shift;
 
     my @path = @_;
-
-    # TODO try
 
     my $sub_dir_path = File::Spec->catfile( $self->path, @path );
 
@@ -74,6 +73,8 @@ sub sub_dir {
 
     return $sub_dir;
 }
+
+use overload q("") => sub { shift->path };
 
 __PACKAGE__->meta->make_immutable;
 
@@ -93,6 +94,22 @@ Sweet::Dir
 
     my $dir = Sweet::Dir->new(path => '/path/to/dir');
     $dir->create;
+
+=head1 ATTRIBUTES
+
+=head2 path
+
+=head1 METHODS
+
+=head2 create
+
+=head2 does_not_exists
+
+=head2 erase
+
+=head2 is_a_directory
+
+=head2 sub_dir
 
 =cut
 
