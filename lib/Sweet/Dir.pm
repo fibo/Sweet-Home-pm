@@ -8,8 +8,6 @@ use File::Path qw(make_path remove_tree);
 
 use Sweet::File;
 
-# TODO Coerce Sweet::Dir to Path::Class::Dir
-
 has 'path' => (
     builder  => '_build_path',
     coerce   => 1,
@@ -75,6 +73,8 @@ sub sub_dir {
     return $sub_dir;
 }
 
+use overload q("") => sub { shift->path };
+
 __PACKAGE__->meta->make_immutable;
 
 1;
@@ -93,6 +93,22 @@ Sweet::Dir
 
     my $dir = Sweet::Dir->new(path => '/path/to/dir');
     $dir->create;
+
+=head1 ATTRIBUTES
+
+=head2 path
+
+=head1 METHODS
+
+=head2 create
+
+=head2 does_not_exists
+
+=head2 erase
+
+=head2 is_a_directory
+
+=head2 sub_dir
 
 =cut
 
