@@ -64,7 +64,14 @@ sub is_a_directory { -d shift->path }
 sub sub_dir {
     my $self = shift;
 
-    my @path = @_;
+    my @path;
+
+    if ( scalar(@_) == 1 and ref $_[0] eq 'ARRAY' ) {
+        @path = @{ $_[0] };
+    }
+    else {
+        @path = @_;
+    }
 
     my $sub_dir_path = File::Spec->catfile( $self->path, @path );
 
@@ -116,7 +123,9 @@ Sweet::Dir
 
 =head2 sub_dir
 
-    my $dir2 = $dir->sub_dir(['foo', bar']);
+    my $dir2 = $dir->sub_dir('foo', bar');
+    # Or pass an arrayref if you prefer.
+    # my $dir2 = $dir->sub_dir(['foo', bar']);
 
     # Create foo/bar sub directory.
     $dir2->create;
