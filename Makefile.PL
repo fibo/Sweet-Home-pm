@@ -27,7 +27,7 @@ WriteMakefile(
         'File::Spec'                 => '3.47',
         'Moose'                      => '2.1403',
         'MooseX::Types::Path::Class' => '0.06',
-        'nameespace::autoclean'      => '0.24',
+        'namespace::autoclean'       => '0.24',
     },
     BUILD_REQUIRES => {
         'ExtUtils::MakeMaker' => '6.64',
