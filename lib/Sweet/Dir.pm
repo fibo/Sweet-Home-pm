@@ -1,5 +1,6 @@
 package Sweet::Dir;
 use Moose;
+use namespace::autoclean;
 
 use Try::Tiny;
 
@@ -9,12 +10,12 @@ use Try::Tiny;
 
 use Sweet::File;
 
-has 'path' => (
-    builder  => '_build_path',
-    coerce   => 1,
-    is       => 'ro',
-    isa      => 'Path::Class::Dir',
-    required => 1,
+has path => (
+    builder => '_build_path',
+    coerce  => 1,
+    is      => 'ro',
+    isa     => 'Path::Class::Dir',
+    lazy    => 1,
 );
 
 sub create {
@@ -32,9 +33,7 @@ sub create {
     };
 }
 
-sub does_not_exists {
-    return !-d shift->path;
-}
+sub does_not_exists { !-d shift->path }
 
 sub erase {
     my $self = shift;
@@ -95,6 +94,9 @@ Sweet::Dir
     my $dir = Sweet::Dir->new(path => '/path/to/dir');
     $dir->create;
 
+
+    say $dir; # /path/to/dir
+
 =head1 ATTRIBUTES
 
 =head2 path
@@ -109,7 +111,15 @@ Sweet::Dir
 
 =head2 is_a_directory
 
+    # Create dir if it does not exists.
+    $dir->is_a_directory or $dir->create;
+
 =head2 sub_dir
+
+    my $dir2 = $dir->sub_dir(['foo', bar']);
+
+    # Create foo/bar sub directory.
+    $dir2->create;
 
 =cut
 

@@ -1,5 +1,6 @@
 package Sweet::File;
 use Moose;
+use namespace::autoclean;
 
 use Try::Tiny;
 
@@ -10,7 +11,7 @@ use File::Spec;
 
 use MooseX::Types::Path::Class;
 
-has 'dir' => (
+has dir => (
     builder   => '_build_dir',
     is        => 'ro',
     isa       => 'Sweet::Dir',
@@ -18,7 +19,7 @@ has 'dir' => (
     predicate => 'has_dir',
 );
 
-has 'name' => (
+has name => (
     builder   => '_build_name',
     is        => 'ro',
     isa       => 'Str',
@@ -26,7 +27,7 @@ has 'name' => (
     predicate => 'has_name',
 );
 
-has 'ext' => (
+has ext => (
     default => sub {
         my $self = shift;
 
@@ -42,7 +43,7 @@ has 'ext' => (
     predicate => 'has_ext',
 );
 
-has 'path' => (
+has path => (
     builder => '_build_path',
     coerce  => 1,
     is      => 'rw',

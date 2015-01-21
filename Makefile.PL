@@ -26,16 +26,17 @@ WriteMakefile(
         'File::Remove'               => '1.52',
         'File::Spec'                 => '3.47',
         'Moose'                      => '2.1403',
-        'MooseX::Types::Path::Class' => '0.06'
+        'MooseX::Types::Path::Class' => '0.06',
+        'nameespace::autoclean'      => '0.24',
     },
     BUILD_REQUIRES => {
-        'ExtUtils::MakeMaker' => '6.64'
+        'ExtUtils::MakeMaker' => '6.64',
     },
     test          => { TESTS => 't/*.t' },
     TEST_REQUIRES => {
         'Test::Compile' => '1.2.1',
         'Test::More'    => '1.001009',
-        'Test::Pod'     => '1.48'
+        'Test::Pod'     => '1.48',
     }
 );
 

@@ -1,2 +1,5 @@
-2014-12-11 v0.1                                                                                                                                                                                
+2015-0x-xx v0.02
++ Dir path is lazy, so a child class can do roles
++ use namespace::autoclean
+2014-12-11 v0.01
 + First release

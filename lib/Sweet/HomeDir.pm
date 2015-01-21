@@ -1,5 +1,6 @@
 package Sweet::HomeDir;
 use Moose;
+use namespace::autoclean;
 
 use File::HomeDir;
 

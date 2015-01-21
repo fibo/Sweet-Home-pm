@@ -2,7 +2,7 @@ package Sweet::Home;
 use strict;
 use warnings;
 
-our $VERSION = '0.01';
+our $VERSION = '0.02';
 
 1;
 
@@ -24,13 +24,17 @@ Sweet::Home - Dir, File, HomeDir, and other sweet classes
 
     my $dir = Sweet::Dir->new(path => '/path/to/mydir');
 
-    $dir->is_a_directory || $dir->create;
+    $dir->is_a_directory or $dir->create;
 
     my $dir2 = $dir->sub_dir('foo');
 
     $dir2->create;
 
+    say $dir2; # /path/to/mydir/foo
+
     my $file = $dir2->file('bar');
+
+    say $file; # /path/to/mydir/foo/bar
 
 =head1 DESCRIPTION
 
