@@ -14,11 +14,19 @@ __PACKAGE__->meta->make_immutable;
 
 __END__
 
-=encoding utf8
-
 =head1 NAME
 
 Sweet::HomeDir
+
+=head1 INHERITANCE
+
+Inherits from L<Sweet::Dir>.
+
+=head1 ATTRIBUTES
+
+=head2 path
+
+Defaults to value given by L<File::HomeDir>'s C<my_home> function.
 
 =cut
 

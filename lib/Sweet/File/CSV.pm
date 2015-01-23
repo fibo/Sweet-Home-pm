@@ -18,6 +18,10 @@ Sweet::File::CSV
 
     my $csv = Sweet::File::CSV->new(dir => $dir, name => 'file.csv');
 
+=head1 INHERITANCE
+
+Inherits from C<Sweet::File::DSV>.
+
 =head1 ATTRIBUTES
 
 =head2 sep

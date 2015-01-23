@@ -106,17 +106,23 @@ Create a pipe separated value file instance.
         sep  => '|',
     );
 
+=head1 INHERITANCE
+
+Inherits from C<Sweet::File>.
+
 =head1 ATTRIBUTES
 
 =head2 header
 
 =head2 sep
 
-Field separator.
+Field separator. Must be provided at creation time or in a sub class with C<_build_sep> method.
 
 =head1 METHODS
 
 =head2 num_rows
+
+    say $file->num_rows; # 2
 
 =head2 field
 
@@ -124,6 +130,8 @@ Field separator.
     say $file->field(1); # FIELD_B
 
 =head2 fields
+
+    my @fields = $file->fields; # ('FIELD_A', 'FIELD_B')
 
 =head2 rows
 
