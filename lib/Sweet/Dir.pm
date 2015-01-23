@@ -112,9 +112,22 @@ Sweet::Dir
 
 =head2 create
 
+    $dir->create;
+
 =head2 does_not_exists
 
+    $dir->create if $dir->does_not_exists;
+
 =head2 erase
+
+    $dir->erase;
+
+=head2 file
+
+Instance of file inside dir. Returns a L<Sweet::File>.
+
+    my $file = $dir->file('foo.txt');
+    say $file; # /path/to/dir/foo.txt
 
 =head2 is_a_directory
 

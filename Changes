@@ -1,4 +1,5 @@
 2015-0x-xx v0.02
++ Sweet::FileRows
 + both sub_dir('foo','bar') and sub_dir(['foo','bar']) works
 + Dir path is lazy, so a child class can do roles
 + use namespace::autoclean

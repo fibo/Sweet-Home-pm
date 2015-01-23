@@ -7,9 +7,25 @@ use Try::Tiny;
 use File::Basename;
 use File::Copy;
 use File::Remove 'remove';
+use File::Slurp;
 use File::Spec;
 
 use MooseX::Types::Path::Class;
+
+has _read => (
+    builder => '_read_file',
+    handles => {
+        lines     => 'elements',
+        line      => 'get',
+        num_lines => 'count',
+    },
+    is     => 'ro',
+    isa    => 'ArrayRef[Str]',
+    lazy   => 1,
+    traits => ['Array'],
+);
+
+sub _read_file { read_file( shift->path, array_ref => 1 ) }
 
 has dir => (
     builder   => '_build_dir',
@@ -29,9 +45,7 @@ has name => (
 
 has ext => (
     default => sub {
-        my $self = shift;
-
-        my $path = $self->path;
+        my $path = shift->path;
 
         my ( $filename, $dirname, $suffix ) = fileparse( $path, qr/[^.]*$/ );
 
@@ -157,6 +171,34 @@ Sweet::File
 =head2 is_executable
 
 =head2 is_writable
+
+=head2 line
+
+    my $line1 = $file->line(0);
+    my $line2 = $file->line(1);
+    my $line3 = $file->line(2);
+
+=head2 lines
+
+    for my $line ( $file->lines ) {
+        chomp $line;
+        $line =~ s/foo/bar/;
+        say $line;
+    }
+
+=head2 num_lines
+
+    say $file->num_lines if $file->is_a_plain_file;
+
+=head2 _read_file
+
+Reads the file contents using L<File::Slurp> C<read_file> function.
+
+Defaults to
+
+    sub { read_file( shift->path, array_ref => 1 ) }
+
+and must return an array_ref of strings containing file lines.
 
 =cut
 
