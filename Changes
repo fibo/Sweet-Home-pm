@@ -1,0 +1,9 @@
+2015-0x-xx v0.02
++ Delimited separated value files:
+  + Sweet::File::DSV
+    `- Sweet::File::CSV
++ both sub_dir('foo','bar') and sub_dir(['foo','bar']) works
++ Dir path is lazy, so a child class can do roles
++ use namespace::autoclean
+2014-12-11 v0.01
++ First release

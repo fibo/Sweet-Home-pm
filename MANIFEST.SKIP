@@ -1,5 +1,8 @@
-^\.(?!perltidyrc)
+^MANIFEST\.SKIP$
+^MANIFEST\.bak$
+^\.
 .*\.old$
+.*\.bak$
 \.tar\.gz$
 ^Makefile$
 ^MYMETA\.

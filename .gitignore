@@ -1,7 +1,6 @@
 .*
 *~
 !.gitignore
-!.perltidyrc
 !.travis.yml
 blib
 pm_to_blib
@@ -10,3 +9,4 @@ Makefile*
 MANIFEST*
 !MANIFEST.SKIP
 *META.*
+*.tar.gz

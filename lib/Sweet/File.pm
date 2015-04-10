@@ -1,33 +1,33 @@
-
-=head1 NAME
-
-Sweet::File
-
-=head1 SYNOPSIS
-
-    use Sweet::File;
-
-    my $file = Sweet::File->new(
-        dir => '/path/to/dir',
-        name => 'foo',
-    );
-
-=cut
-
 package Sweet::File;
 use Moose;
+use namespace::autoclean;
 
 use Try::Tiny;
 
 use File::Basename;
 use File::Copy;
+use File::Remove 'remove';
+use File::Slurp;
 use File::Spec;
 
-#use File::Touch;
-use File::Remove 'remove';
 use MooseX::Types::Path::Class;
 
-has 'dir' => (
+has _read => (
+    builder => '_read_file',
+    handles => {
+        lines     => 'elements',
+        line      => 'get',
+        num_lines => 'count',
+    },
+    is     => 'ro',
+    isa    => 'ArrayRef[Str]',
+    lazy   => 1,
+    traits => ['Array'],
+);
+
+sub _read_file { read_file( shift->path, array_ref => 1 ) }
+
+has dir => (
     builder   => '_build_dir',
     is        => 'ro',
     isa       => 'Sweet::Dir',
@@ -35,7 +35,7 @@ has 'dir' => (
     predicate => 'has_dir',
 );
 
-has 'name' => (
+has name => (
     builder   => '_build_name',
     is        => 'ro',
     isa       => 'Str',
@@ -43,29 +43,21 @@ has 'name' => (
     predicate => 'has_name',
 );
 
-has 'ext' => (
-    default=>sub{
-        my $self = shift;
+has ext => (
+    default => sub {
+        my $path = shift->path;
 
-        my $path = $self->path;
-
-        my ( $filename, $dirname, $suffix ) = fileparse( $path, qr/\.[^.]*/ );
+        my ( $filename, $dirname, $suffix ) = fileparse( $path, qr/[^.]*$/ );
 
         return $suffix;
     },
-is=>'ro',
-isa=>'Str',
-lazy=>1,
+    is        => 'ro',
+    isa       => 'Str',
+    lazy      => 1,
+    predicate => 'has_ext',
 );
 
-has 'host' => (
-    builder => '_build_host',
-    is      => 'ro',
-    isa     => 'Sweet::Host',
-    lazy    => 1,
-);
-
-has 'path' => (
+has path => (
     builder => '_build_path',
     coerce  => 1,
     is      => 'rw',
@@ -86,22 +78,6 @@ sub _build_path {
     return $path;
 }
 
-#TODO create
-#sub create {
-#    my $self = shift;
-#
-#    my $path = $self->path;
-#
-#    print $path, "\n";
-#
-#    try {
-#        touch($path);
-#    }
-#    catch {
-#        warn $_;
-#    };
-#}
-
 sub copy_to_dir {
     my $self = shift;
 
@@ -112,45 +88,28 @@ sub copy_to_dir {
         Sweet::File->new( dir => $dir, name => $name );
     }
     catch {
-        #TODO fai il throw
-        warn $_;
+        die $_;
     };
 
     my $source_path = $self->path;
     my $target_path = $file_copied->path;
 
     try {
-        #TODO questo dovrebbe farlo il create
         $dir->is_a_directory or $dir->create;
     }
     catch {
-        #TODO fai il throw
-        warn $_;
+        die $_;
     };
 
     try {
         copy( $source_path, $target_path );
     }
     catch {
-        #TODO fai il throw
-        warn $_;
+        die $_;
     };
 
     return $file_copied;
 }
-
-# TODO sub move_to_dir {
-#
-#    #TODO usa move di File::Copy
-#}
-
-#TODO
-#sub copy_to_file {
-#    my $self = shift;
-#
-#    my $target_file = shift;
-#
-#}
 
 sub does_not_exists { !-e shift->path }
 
@@ -169,4 +128,75 @@ use overload q("") => sub { shift->path };
 __PACKAGE__->meta->make_immutable;
 
 1;
+
+__END__
+
+=head1 NAME
+
+Sweet::File
+
+=head1 SYNOPSIS
+
+    use Sweet::File;
+
+    my $file = Sweet::File->new(
+        dir => '/path/to/dir',
+        name => 'foo',
+    );
+
+=head1 ATTRIBUTES
+
+=head2 dir
+
+=head2 ext
+
+=head2 name
+
+=head2 path
+
+=head1 METHODS
+
+=head2 copy_to_dir
+
+=head2 does_not_exists
+
+=head2 erase
+
+=head2 has_zero_size
+
+=head2 is_a_plain_file
+
+=head2 is_executable
+
+=head2 is_writable
+
+=head2 line
+
+    my $line1 = $file->line(0);
+    my $line2 = $file->line(1);
+    my $line3 = $file->line(2);
+
+=head2 lines
+
+    for my $line ( $file->lines ) {
+        chomp $line;
+        $line =~ s/foo/bar/;
+        say $line;
+    }
+
+=head2 num_lines
+
+    say $file->num_lines if $file->is_a_plain_file;
+
+=head2 _read_file
+
+Reads the file contents using L<File::Slurp> C<read_file> function.
+
+Defaults to
+
+    sub { read_file( shift->path, array_ref => 1 ) }
+
+and must return an array_ref of strings containing file lines.
+
+=cut
 
