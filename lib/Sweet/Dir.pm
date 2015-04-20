@@ -2,6 +2,7 @@ package Sweet::Dir;
 use Moose;
 use namespace::autoclean;
 
+use Carp;
 use Try::Tiny;
 
 use MooseX::Types::Path::Class;
@@ -29,7 +30,7 @@ sub create {
       make_path( $path, { error => \$make_path_error } );
     }
     catch {
-      die $make_path_error;
+      confess $make_path_error;
     };
 }
 
@@ -45,16 +46,32 @@ sub erase {
       remove_path( $path, { error => \$remove_path_error } );
     }
     catch {
-      die $remove_path_error;
+      confess $remove_path_error;
     };
 }
 
 sub file {
-    my $self = shift;
+    my ( $self, $name, $builder ) = @_;
 
-    my $name = shift;
+    my $default_builder = sub {
+        my ( $dir, $name ) = @_;
 
-    my $file = Sweet::File->new( dir => $self, name => $name );
+        my $file = Sweet::File->new(
+            dir  => $dir,
+            name => $name
+        );
+
+        return $file;
+    };
+
+    $builder = $default_builder if (not defined $builder);
+
+    my $file = try {
+        $builder->( $self, $name );
+    }
+    catch {
+        confess $_;
+    };
 
     return $file;
 }
@@ -122,10 +139,27 @@ Sweet::Dir
 
 =head2 file
 
-Instance of file inside dir. Returns a L<Sweet::File>.
+Instance of file inside dir. Returns a L<Sweet::File> by default.
 
     my $file = $dir->file('foo.txt');
     say $file; # /path/to/dir/foo.txt
+
+Accepts an optional reference to a sub which will be C<$dir> and C<$name>
+parameters and will be called to build the object reference. For example
+
+    use Sweet::File::DSV;
+
+    my $file = $dir->file('bar.tsv', sub {
+        my ( $dir, $name ) = @_;
+
+        my $file = Sweet::File::DSV->new(
+            dir  => $dir,
+            name => $name,
+            separator => "\t",
+        );
+
+        return $file;
+    });
 
 =head2 is_a_directory
 

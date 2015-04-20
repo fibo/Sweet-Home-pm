@@ -16,7 +16,7 @@ ok $file->is_writable;
 is "$file", catfile( 't', 'file.t' ), 'stringify to path';
 
 is $file->path, catfile( 't', 'file.t' ), 'path';
-is $file->ext, 't', 'path';
+is $file->extension, 't', 'path';
 
 my $file_touched = Sweet::File->new( name => 'file_touched', dir => $test_dir );
 ok $file_touched->does_not_exists, 'touched file does not exists yet';

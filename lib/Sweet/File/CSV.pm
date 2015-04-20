@@ -4,7 +4,7 @@ use namespace::autoclean;
 
 extends 'Sweet::File::DSV';
 
-sub _build_sep { ',' }
+sub _build_separator { ',' }
 
 __PACKAGE__->meta->make_immutable;
 

@@ -7,8 +7,8 @@ extends 'Sweet::File';
 has _fields => (
     builder => '_build_fields',
     handles => {
-        field   => 'get',
-        fields   => 'elements',
+        field      => 'get',
+        fields     => 'elements',
         num_fields => 'count',
     },
     is     => 'ro',
@@ -21,25 +21,36 @@ sub _build_fields {
     my $self = shift;
 
     my $header    = $self->header;
-    my $sep = $self->sep;
+    my $separator = $self->separator;
 
-    # If separator is a pipe, skip it.
-    $sep = '\|' if ($sep eq '|');
+    # If separator is a pipe, escape it.
+    $separator = '\|' if ( $separator eq '|' );
 
-    my @fields = split $sep, $header;
+    my @fields = split $separator, $header;
 
     return \@fields;
 }
 
+has no_header => (
+    builder => '_build_no_header',
+    is      => 'ro',
+    isa     => 'Bool',
+    lazy    => 1,
+);
+
+sub _build_no_header { 0 }
+
 has header => (
     builder => '_build_header',
     is      => 'ro',
-    isa     => 'Str',
+    isa     => 'Maybe[Str]',
     lazy    => 1,
 );
 
 sub _build_header {
     my $self = shift;
+
+    return if $self->no_header;
 
     my $header = $self->line(0);
 
@@ -48,8 +59,8 @@ sub _build_header {
     return $header;
 }
 
-has sep => (
-    builder  => '_build_sep',
+has separator => (
+    builder  => '_build_separator',
     is       => 'ro',
     isa      => 'Str',
     lazy => 1,
@@ -60,8 +71,8 @@ has _rows => (
     traits  => ['Array'],
     handles => {
         num_rows => 'count',
-        row => 'get',
-        rows => 'elements',
+        row      => 'get',
+        rows     => 'elements',
     },
     is   => 'ro',
     isa  => 'ArrayRef[Str]',
@@ -73,8 +84,8 @@ sub _build_rows {
 
     my @rows = $self->lines;
 
-    # Remove header.
-    shift @rows;
+    # Remove header, if any.
+    shift @rows unless $self->no_header;
 
     chomp @rows;
 
@@ -114,7 +125,9 @@ Inherits from C<Sweet::File>.
 
 =head2 header
 
-=head2 sep
+=head2 no_header
+
+=head2 separator
 
 Field separator. Must be provided at creation time or in a sub class with C<_build_sep> method.
 

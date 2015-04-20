@@ -2,6 +2,7 @@ package Sweet::File;
 use Moose;
 use namespace::autoclean;
 
+use Carp;
 use Try::Tiny;
 
 use File::Basename;
@@ -43,7 +44,7 @@ has name => (
     predicate => 'has_name',
 );
 
-has ext => (
+has extension => (
     default => sub {
         my $path = shift->path;
 
@@ -54,29 +55,27 @@ has ext => (
     is        => 'ro',
     isa       => 'Str',
     lazy      => 1,
-    predicate => 'has_ext',
 );
 
 has path => (
-    builder => '_build_path',
     coerce  => 1,
-    is      => 'rw',
-    isa     => 'Path::Class::File',
-    lazy    => 1,
+    default => sub {
+        my $self = shift;
+
+        my $name = $self->name;
+        my $dir  = $self->dir;
+
+        my $dir_path = $dir->path;
+
+        my $path = File::Spec->catfile( $dir_path, $name );
+
+        return $path;
+    },
+    init_arg => undef,
+    is       => 'rw',
+    isa      => 'Path::Class::File',
+    lazy     => 1,
 );
-
-sub _build_path {
-    my $self = shift;
-
-    my $name = $self->name;
-    my $dir  = $self->dir;
-
-    my $dir_path = $dir->path;
-
-    my $path = File::Spec->catfile( $dir_path, $name );
-
-    return $path;
-}
 
 sub copy_to_dir {
     my $self = shift;
@@ -88,7 +87,7 @@ sub copy_to_dir {
         Sweet::File->new( dir => $dir, name => $name );
     }
     catch {
-        die $_;
+        confess $_;
     };
 
     my $source_path = $self->path;
@@ -98,14 +97,14 @@ sub copy_to_dir {
         $dir->is_a_directory or $dir->create;
     }
     catch {
-        die $_;
+        confess $_;
     };
 
     try {
         copy( $source_path, $target_path );
     }
     catch {
-        die $_;
+        confess $_;
     };
 
     return $file_copied;
@@ -148,7 +147,7 @@ Sweet::File
 
 =head2 dir
 
-=head2 ext
+=head2 extension
 
 =head2 name
 
