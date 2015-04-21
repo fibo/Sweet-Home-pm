@@ -36,6 +36,18 @@ has dir => (
     predicate => 'has_dir',
 );
 
+sub _build_dir {
+    my $self = shift;
+
+    my $path = $self->path;
+
+    my $dirname = dirname($path);
+
+    my $dir = Sweet::Dir->new( path => $dirname );
+
+    return $dir;
+}
+
 has name => (
     builder   => '_build_name',
     is        => 'ro',
@@ -43,6 +55,16 @@ has name => (
     lazy      => 1,
     predicate => 'has_name',
 );
+
+sub _build_name {
+    my $self = shift;
+
+    my $path = $self->path;
+
+    my $name = basename($path);
+
+    return $name;
+}
 
 has extension => (
     default => sub {
@@ -58,24 +80,25 @@ has extension => (
 );
 
 has path => (
+    builder => '_build_path',
     coerce  => 1,
-    default => sub {
-        my $self = shift;
-
-        my $name = $self->name;
-        my $dir  = $self->dir;
-
-        my $dir_path = $dir->path;
-
-        my $path = File::Spec->catfile( $dir_path, $name );
-
-        return $path;
-    },
-    init_arg => undef,
-    is       => 'rw',
-    isa      => 'Path::Class::File',
-    lazy     => 1,
+    is      => 'ro',
+    isa     => 'Path::Class::File',
+    lazy    => 1,
 );
+
+sub _build_path {
+    my $self = shift;
+
+    my $name = $self->name;
+    my $dir  = $self->dir;
+
+    my $dir_path = $dir->path;
+
+    my $path = File::Spec->catfile( $dir_path, $name );
+
+    return $path;
+}
 
 sub copy_to_dir {
     my $self = shift;
@@ -83,8 +106,10 @@ sub copy_to_dir {
     my $dir  = shift;
     my $name = $self->name;
 
+    my $class = $self->meta->name;
+
     my $file_copied = try {
-        Sweet::File->new( dir => $dir, name => $name );
+        $class->new( dir => $dir, name => $name );
     }
     catch {
         confess $_;

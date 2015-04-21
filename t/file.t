@@ -1,6 +1,6 @@
 use strict;
 use warnings;
-use Test::More tests => 12;
+use Test::More tests => 14;
 
 use File::Spec::Functions;
 use Sweet::Dir;
@@ -35,4 +35,8 @@ my @got_lines = $file1->lines;
 is_deeply \@got_lines, \@file1_lines, 'lines';
 is $file1->line(0), $file1_lines[0], 'line(0)';
 is $file1->line(1), $file1_lines[1], 'line(1)';
+
+my $file_from_path = Sweet::File->new(path=>'t/file.t');
+is $file_from_path->name, 'file.t', 'name from path';
+is $file_from_path->dir->path, 't', 'dir from path';
 

@@ -1,4 +1,8 @@
-2015-0x-xx v0.02
+2015-04-xx v0.03
++ Added class diagram
++ Can build Sweet::File passsing only path
++ Sweet::Dir->file accepts optional sub builder reference
+2015-01-23 v0.02
 + Delimited separated value files:
   + Sweet::File::DSV
     `- Sweet::File::CSV
