@@ -1,4 +1,4 @@
-2015-04-xx v0.03
+2015-04-20 v0.03
 + Added class diagram
 + Can build Sweet::File passsing only path
 + Sweet::Dir->file accepts optional sub builder reference
