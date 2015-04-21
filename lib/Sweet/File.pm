@@ -163,10 +163,12 @@ Sweet::File
 
     use Sweet::File;
 
-    my $file = Sweet::File->new(
+    my $file1 = Sweet::File->new(
         dir => '/path/to/dir',
         name => 'foo',
     );
+
+    my $file2 = Sweet::File->new(path => '/path/to/file');
 
 =head1 ATTRIBUTES
 

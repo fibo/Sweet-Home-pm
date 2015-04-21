@@ -60,6 +60,12 @@ It is just syntactic sugar on top of packages like L<'File::Basename'>, L<'File:
 
 =back
 
+=begin HTML
+
+<img src="https://raw.githubusercontent.com/fibo/Sweet-Home-pm/master/dia/Sweet-Home.svg" alt="Class diagram" />
+
+=end HTML
+
 =head1 COPYRIGHT AND LICENSE
 
     This software is copyright (c) 2014 by G. Casati.

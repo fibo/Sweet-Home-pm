@@ -21,7 +21,9 @@ has path => (
 
 sub create {
     my $self = shift;
+
     my $path = $self->path;
+
     my $make_path_error;
 
     return $self if $self->is_a_directory;
