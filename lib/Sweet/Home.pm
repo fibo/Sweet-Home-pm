@@ -42,7 +42,7 @@ Nothing is better than feel at home. Where is the home? The home is where I can 
 
 This package provides a set of features to make you feel comfortable when working with files and folders.
 
-It is just syntactic sugar on top of packages like L<'File::Basename'>, L<'File::Copy'>, L<'File::HomeDir'>, L<'File::Path'>, L<'File::Remove'>, L<'File::Spec'>, etc.
+It is just syntactic sugar on top of packages like L<File::Basename>, L<File::Copy>, L<File::HomeDir>, L<File::Path>, L<File::Remove>, L<File::Spec>, etc.
 
 =head1 CLASSES
 
@@ -62,7 +62,7 @@ It is just syntactic sugar on top of packages like L<'File::Basename'>, L<'File:
 
 =begin HTML
 
-<img src="https://raw.githubusercontent.com/fibo/Sweet-Home-pm/master/dia/Sweet-Home.svg" alt="Class diagram" />
+<img src="http://g14n.info/Sweet-Home-pm/dia/Sweet-Home.svg" alt="Class diagram" />
 
 =end HTML
 
