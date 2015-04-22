@@ -24,7 +24,7 @@ Inherits from C<Sweet::File::DSV>.
 
 =head1 ATTRIBUTES
 
-=head2 sep
+=head2 separator
 
 Separator defaults to C<,>.
 

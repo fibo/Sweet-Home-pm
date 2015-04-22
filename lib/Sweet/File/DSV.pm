@@ -32,13 +32,11 @@ sub _build_fields {
 }
 
 has no_header => (
-    builder => '_build_no_header',
+    default => sub { 0 },
     is      => 'ro',
     isa     => 'Bool',
     lazy    => 1,
 );
-
-sub _build_no_header { 0 }
 
 has header => (
     builder => '_build_header',
