@@ -10,3 +10,4 @@ MANIFEST*
 !MANIFEST.SKIP
 *META.*
 *.tar.gz
+cover_db

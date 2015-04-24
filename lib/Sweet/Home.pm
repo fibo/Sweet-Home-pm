@@ -44,6 +44,10 @@ This package provides a set of features to make you feel comfortable when workin
 
 It is just syntactic sugar on top of packages like L<File::Basename>, L<File::Copy>, L<File::HomeDir>, L<File::Path>, L<File::Remove>, L<File::Spec>, etc.
 
+=head1 CODE COVERAGE
+
+Code coverage metrics report available L<here|http://g14n.info/Sweet-Home-pm/code/coverage.html>
+
 =head1 CLASSES
 
 =over 4
