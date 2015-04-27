@@ -7,6 +7,7 @@ use Try::Tiny;
 
 use MooseX::Types::Path::Class;
 use File::Path qw(make_path remove_tree);
+use File::Slurp;
 use Try::Tiny;
 
 use Sweet::File;
@@ -78,6 +79,16 @@ sub file {
     return $file;
 }
 
+sub file_list {
+    my ( $self, $regexp ) = @_;
+
+    my @files = read_dir( $self->path );
+
+    return @files if not defined $regexp;
+
+    return grep { m/$regexp/ } @files;
+}
+
 sub is_a_directory { -d shift->path }
 
 sub sub_dir {
@@ -146,7 +157,7 @@ Instance of file inside dir. Returns a L<Sweet::File> by default.
     my $file = $dir->file('foo.txt');
     say $file; # /path/to/dir/foo.txt
 
-Accepts an optional reference to a sub which will be C<$dir> and C<$name>
+Accepts an optional reference to a sub which expects C<$dir> and C<$name>
 parameters and will be called to build the object reference. For example
 
     use Sweet::File::DSV;
@@ -162,6 +173,12 @@ parameters and will be called to build the object reference. For example
 
         return $file;
     });
+
+=head2 file_list
+
+Returns a list of files contained in the directory
+
+    my @files = @$dir->file_list;
 
 =head2 is_a_directory
 
