@@ -2,6 +2,7 @@ use strict;
 use warnings;
 use Test::More;
 
+use File::Temp qw(tempdir);
 use Sweet::Dir;
 use Sweet::File::DSV;
 
@@ -30,6 +31,19 @@ my $file2 = $test_dir->file('file', sub {
         return $file;
 });
 isa_ok $file2, 'Sweet::File::DSV', 'file() accepts an optional reference to a sub builder';
+
+my $temp = Sweet::Dir->new( path => tempdir() )->sub_dir('created');
+ok $temp->does_not_exists, 'to be created dir does not exists';
+$temp->create;
+$temp->is_a_directory, 'created dir now exists';
+
+my @expected_files1 = sort qw(_compile.t  dir.t  empty_file  file1.csv  file1.dat  file1.txt  file-csv.t  file-dsv.t  file.t  _pod.t);
+my @got_files1 = sort $test_dir->file_list;
+is_deeply \@got_files1, \@expected_files1, 'file_list';
+
+my @expected_files2 = sort qw(file1.csv  file1.dat  file1.txt);
+my @got_files2 = sort $test_dir->file_list('file\d\.\w\w\w');
+is_deeply \@got_files2, \@expected_files2, 'file_list(regexp)';
 
 done_testing;
 

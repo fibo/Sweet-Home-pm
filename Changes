@@ -1,5 +1,6 @@
 2015-xx- v0.04
 + Added code coverage report
++ Added Sweet::Dir::file_list
 2015-04-20 v0.03
 + Added class diagram
 + Can build Sweet::File passsing only path
