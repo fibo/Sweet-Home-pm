@@ -20,84 +20,84 @@ http://www.pjcj.net
 <h1>File Coverage</h1>
 <table>
 <tr><td class="h" align="right">File:</td><td align="left">lib/Sweet/File/DSV.pm</td></tr>
-<tr><td class="h" align="right">Coverage:</td><td align="left" class="c2">90.9%</td></tr>
+<tr><td class="h" align="right">Coverage:</td><td align="left" class="c2">93.9%</td></tr>
 </table>
 <div><br/></div>
 <table>
-<tr><th>line</th><th>stmt</th><th>bran</th><th>cond</th><th>sub</th><th>time</th><th>code</th></tr>
-<tr><td class="h">1</td><td></td><td></td><td></td><td></td><td></td><td class="s">package Sweet::File::DSV;</td></tr>
-<tr><td class="h">2</td><td><div class="c3">5</div><div class="c3">5</div><div class="c3">5</div></td><td></td><td></td><td><div class="c3"><a href="lib-Sweet-File-DSV-pm--subroutine.html#L2">5</a></div></td><td><div>6928122</div><div>520405</div><div>48</div></td><td class="s">use Moose;</td></tr>
-<tr><td class="h">3</td><td><div class="c3">5</div><div class="c3">5</div><div class="c3">5</div></td><td></td><td></td><td><div class="c3"><a href="lib-Sweet-File-DSV-pm--subroutine.html#L3">5</a></div></td><td><div>33107</div><div>1235</div><div>29</div></td><td class="s">use namespace::autoclean;</td></tr>
-<tr><td class="h">4</td><td colspan="6"></td></tr><tr><td class="h">5</td><td></td><td></td><td></td><td></td><td></td><td class="s">extends &#39;Sweet::File&#39;;</td></tr>
-<tr><td class="h">6</td><td colspan="6"></td></tr><tr><td class="h">7</td><td></td><td></td><td></td><td></td><td></td><td class="s">has _fields =&gt; (</td></tr>
-<tr><td class="h">8</td><td></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;builder =&gt; &#39;_build_fields&#39;,</td></tr>
-<tr><td class="h">9</td><td></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;handles =&gt; {</td></tr>
-<tr><td class="h">10</td><td></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;field&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=&gt; &#39;get&#39;,</td></tr>
-<tr><td class="h">11</td><td></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;fields&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=&gt; &#39;elements&#39;,</td></tr>
-<tr><td class="h">12</td><td></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;num_fields =&gt; &#39;count&#39;,</td></tr>
-<tr><td class="h">13</td><td></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;},</td></tr>
-<tr><td class="h">14</td><td></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;is&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=&gt; &#39;ro&#39;,</td></tr>
-<tr><td class="h">15</td><td></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;isa&nbsp;&nbsp;&nbsp;&nbsp;=&gt; &#39;ArrayRef[Str]&#39;,</td></tr>
-<tr><td class="h">16</td><td></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;lazy&nbsp;&nbsp;&nbsp;=&gt; 1,</td></tr>
-<tr><td class="h">17</td><td></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;traits =&gt; [&#39;Array&#39;],</td></tr>
-<tr><td class="h">18</td><td></td><td></td><td></td><td></td><td></td><td class="s">);</td></tr>
-<tr><td class="h">19</td><td colspan="6"></td></tr><tr><td class="h">20</td><td></td><td></td><td></td><td></td><td></td><td class="s">sub _build_fields {</td></tr>
-<tr><td class="h">21</td><td><div class="c3">1</div></td><td></td><td></td><td><div class="c3"><a href="lib-Sweet-File-DSV-pm--subroutine.html#L21">1</a></div></td><td><div>1</div></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;my $self = shift;</td></tr>
-<tr><td class="h">22</td><td colspan="6"></td></tr><tr><td class="h">23</td><td><div class="c3">1</div></td><td></td><td></td><td></td><td><div>27</div></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;my $header&nbsp;&nbsp;&nbsp;&nbsp;= $self-&gt;header;</td></tr>
-<tr><td class="h">24</td><td><div class="c3">1</div></td><td></td><td></td><td></td><td><div>26</div></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;my $separator = $self-&gt;separator;</td></tr>
-<tr><td class="h">25</td><td colspan="6"></td></tr><tr><td class="h">26</td><td></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;# If separator is a pipe, escape it.</td></tr>
-<tr><td class="h">27</td><td><div class="c3">1</div></td><td><div class="c0" title="T/-"><a href="lib-Sweet-File-DSV-pm--branch.html#L27">50</a></div></td><td></td><td></td><td><div>3</div></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;$separator = &#39;\|&#39; if ( $separator eq &#39;|&#39; );</td></tr>
-<tr><td class="h">28</td><td colspan="6"></td></tr><tr><td class="h">29</td><td><div class="c3">1</div></td><td></td><td></td><td></td><td><div>10</div></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;my @fields = split $separator, $header;</td></tr>
-<tr><td class="h">30</td><td colspan="6"></td></tr><tr><td class="h">31</td><td><div class="c3">1</div></td><td></td><td></td><td></td><td><div>64</div></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;return \@fields;</td></tr>
-<tr><td class="h">32</td><td></td><td></td><td></td><td></td><td></td><td class="s">}</td></tr>
-<tr><td class="h">33</td><td colspan="6"></td></tr><tr><td class="h">34</td><td></td><td></td><td></td><td></td><td></td><td class="s">has no_header =&gt; (</td></tr>
-<tr><td class="h">35</td><td></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;default =&gt; sub { 0 },</td></tr>
-<tr><td class="h">36</td><td></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;is&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=&gt; &#39;ro&#39;,</td></tr>
-<tr><td class="h">37</td><td></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;isa&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=&gt; &#39;Bool&#39;,</td></tr>
-<tr><td class="h">38</td><td></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;lazy&nbsp;&nbsp;&nbsp;&nbsp;=&gt; 1,</td></tr>
-<tr><td class="h">39</td><td></td><td></td><td></td><td></td><td></td><td class="s">);</td></tr>
-<tr><td class="h">40</td><td colspan="6"></td></tr><tr><td class="h">41</td><td></td><td></td><td></td><td></td><td></td><td class="s">has header =&gt; (</td></tr>
-<tr><td class="h">42</td><td></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;builder =&gt; &#39;_build_header&#39;,</td></tr>
-<tr><td class="h">43</td><td></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;is&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=&gt; &#39;ro&#39;,</td></tr>
-<tr><td class="h">44</td><td></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;isa&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=&gt; &#39;Maybe[Str]&#39;,</td></tr>
-<tr><td class="h">45</td><td></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;lazy&nbsp;&nbsp;&nbsp;&nbsp;=&gt; 1,</td></tr>
-<tr><td class="h">46</td><td></td><td></td><td></td><td></td><td></td><td class="s">);</td></tr>
-<tr><td class="h">47</td><td colspan="6"></td></tr><tr><td class="h">48</td><td></td><td></td><td></td><td></td><td></td><td class="s">sub _build_header {</td></tr>
-<tr><td class="h">49</td><td><div class="c3">2</div></td><td></td><td></td><td><div class="c3"><a href="lib-Sweet-File-DSV-pm--subroutine.html#L49">2</a></div></td><td><div>3</div></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;my $self = shift;</td></tr>
-<tr><td class="h">50</td><td colspan="6"></td></tr><tr><td class="h">51</td><td><div class="c3">2</div></td><td><div class="c0" title="-/F"><a href="lib-Sweet-File-DSV-pm--branch.html#L51">50</a></div></td><td></td><td></td><td><div>59</div></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;return if $self-&gt;no_header;</td></tr>
-<tr><td class="h">52</td><td colspan="6"></td></tr><tr><td class="h">53</td><td><div class="c3">2</div></td><td></td><td></td><td></td><td><div>81</div></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;my $header = $self-&gt;line(0);</td></tr>
-<tr><td class="h">54</td><td colspan="6"></td></tr><tr><td class="h">55</td><td><div class="c3">2</div></td><td></td><td></td><td></td><td><div>5</div></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;chomp $header;</td></tr>
-<tr><td class="h">56</td><td colspan="6"></td></tr><tr><td class="h">57</td><td><div class="c3">2</div></td><td></td><td></td><td></td><td><div>76</div></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;return $header;</td></tr>
-<tr><td class="h">58</td><td></td><td></td><td></td><td></td><td></td><td class="s">}</td></tr>
-<tr><td class="h">59</td><td colspan="6"></td></tr><tr><td class="h">60</td><td></td><td></td><td></td><td></td><td></td><td class="s">has separator =&gt; (</td></tr>
-<tr><td class="h">61</td><td></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;builder&nbsp;&nbsp;=&gt; &#39;_build_separator&#39;,</td></tr>
-<tr><td class="h">62</td><td></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;is&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=&gt; &#39;ro&#39;,</td></tr>
-<tr><td class="h">63</td><td></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;isa&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=&gt; &#39;Str&#39;,</td></tr>
-<tr><td class="h">64</td><td></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;lazy =&gt; 1,</td></tr>
-<tr><td class="h">65</td><td></td><td></td><td></td><td></td><td></td><td class="s">);</td></tr>
-<tr><td class="h">66</td><td colspan="6"></td></tr><tr><td class="h">67</td><td></td><td></td><td></td><td></td><td></td><td class="s">has _rows =&gt; (</td></tr>
-<tr><td class="h">68</td><td></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;builder =&gt; &#39;_build_rows&#39;,</td></tr>
-<tr><td class="h">69</td><td></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;traits&nbsp;&nbsp;=&gt; [&#39;Array&#39;],</td></tr>
-<tr><td class="h">70</td><td></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;handles =&gt; {</td></tr>
-<tr><td class="h">71</td><td></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;num_rows =&gt; &#39;count&#39;,</td></tr>
-<tr><td class="h">72</td><td></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;row&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=&gt; &#39;get&#39;,</td></tr>
-<tr><td class="h">73</td><td></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;rows&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=&gt; &#39;elements&#39;,</td></tr>
-<tr><td class="h">74</td><td></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;},</td></tr>
-<tr><td class="h">75</td><td></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;is&nbsp;&nbsp;&nbsp;=&gt; &#39;ro&#39;,</td></tr>
-<tr><td class="h">76</td><td></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;isa&nbsp;&nbsp;=&gt; &#39;ArrayRef[Str]&#39;,</td></tr>
-<tr><td class="h">77</td><td></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;lazy =&gt; 1,</td></tr>
-<tr><td class="h">78</td><td></td><td></td><td></td><td></td><td></td><td class="s">);</td></tr>
-<tr><td class="h">79</td><td colspan="6"></td></tr><tr><td class="h">80</td><td></td><td></td><td></td><td></td><td></td><td class="s">sub _build_rows {</td></tr>
-<tr><td class="h">81</td><td><div class="c3">2</div></td><td></td><td></td><td><div class="c3"><a href="lib-Sweet-File-DSV-pm--subroutine.html#L81">2</a></div></td><td><div>4</div></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;my $self = shift;</td></tr>
-<tr><td class="h">82</td><td colspan="6"></td></tr><tr><td class="h">83</td><td><div class="c3">2</div></td><td></td><td></td><td></td><td><div>257</div></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;my @rows = $self-&gt;lines;</td></tr>
-<tr><td class="h">84</td><td colspan="6"></td></tr><tr><td class="h">85</td><td></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;# Remove header, if any.</td></tr>
-<tr><td class="h">86</td><td><div class="c3">2</div></td><td><div class="c0" title="T/-"><a href="lib-Sweet-File-DSV-pm--branch.html#L86">50</a></div></td><td></td><td></td><td><div>113</div></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;shift @rows unless $self-&gt;no_header;</td></tr>
-<tr><td class="h">87</td><td colspan="6"></td></tr><tr><td class="h">88</td><td><div class="c3">2</div></td><td></td><td></td><td></td><td><div>6</div></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;chomp @rows;</td></tr>
-<tr><td class="h">89</td><td colspan="6"></td></tr><tr><td class="h">90</td><td><div class="c3">2</div></td><td></td><td></td><td></td><td><div>124</div></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;return \@rows;</td></tr>
-<tr><td class="h">91</td><td></td><td></td><td></td><td></td><td></td><td class="s">}</td></tr>
-<tr><td class="h">92</td><td colspan="6"></td></tr><tr><td class="h">93</td><td></td><td></td><td></td><td></td><td></td><td class="s">__PACKAGE__-&gt;meta-&gt;make_immutable;</td></tr>
-<tr><td class="h">94</td><td colspan="6"></td></tr><tr><td class="h">95</td><td></td><td></td><td></td><td></td><td></td><td class="s">1;</td></tr>
-<tr><td class="h">96</td><td colspan="6"></td></tr><tr><td class="h">97 - 157</td><td colspan="5"></td><td class="s"><pre>=head1 NAME
+<tr><th>line</th><th>stmt</th><th>bran</th><th>cond</th><th>sub</th><th>pod</th><th>time</th><th>code</th></tr>
+<tr><td class="h">1</td><td></td><td></td><td></td><td></td><td></td><td></td><td class="s">package Sweet::File::DSV;</td></tr>
+<tr><td class="h">2</td><td><div class="c3">5</div><div class="c3">5</div><div class="c3">5</div></td><td></td><td></td><td><div class="c3"><a href="lib-Sweet-File-DSV-pm--subroutine.html#L2">5</a></div></td><td></td><td><div>8334040</div><div>538350</div><div>25</div></td><td class="s">use Moose;</td></tr>
+<tr><td class="h">3</td><td><div class="c3">5</div><div class="c3">5</div><div class="c3">5</div></td><td></td><td></td><td><div class="c3"><a href="lib-Sweet-File-DSV-pm--subroutine.html#L3">5</a></div></td><td></td><td><div>20203</div><div>1025</div><div>23</div></td><td class="s">use namespace::autoclean;</td></tr>
+<tr><td class="h">4</td><td colspan="7"></td></tr><tr><td class="h">5</td><td></td><td></td><td></td><td></td><td></td><td></td><td class="s">extends &#39;Sweet::File&#39;;</td></tr>
+<tr><td class="h">6</td><td colspan="7"></td></tr><tr><td class="h">7</td><td></td><td></td><td></td><td></td><td></td><td></td><td class="s">has _fields =&gt; (</td></tr>
+<tr><td class="h">8</td><td></td><td></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;builder =&gt; &#39;_build_fields&#39;,</td></tr>
+<tr><td class="h">9</td><td></td><td></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;handles =&gt; {</td></tr>
+<tr><td class="h">10</td><td></td><td></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;field&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=&gt; &#39;get&#39;,</td></tr>
+<tr><td class="h">11</td><td></td><td></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;fields&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=&gt; &#39;elements&#39;,</td></tr>
+<tr><td class="h">12</td><td></td><td></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;num_fields =&gt; &#39;count&#39;,</td></tr>
+<tr><td class="h">13</td><td></td><td></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;},</td></tr>
+<tr><td class="h">14</td><td></td><td></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;is&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=&gt; &#39;ro&#39;,</td></tr>
+<tr><td class="h">15</td><td></td><td></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;isa&nbsp;&nbsp;&nbsp;&nbsp;=&gt; &#39;ArrayRef[Str]&#39;,</td></tr>
+<tr><td class="h">16</td><td></td><td></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;lazy&nbsp;&nbsp;&nbsp;=&gt; 1,</td></tr>
+<tr><td class="h">17</td><td></td><td></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;traits =&gt; [&#39;Array&#39;],</td></tr>
+<tr><td class="h">18</td><td></td><td></td><td></td><td></td><td></td><td></td><td class="s">);</td></tr>
+<tr><td class="h">19</td><td colspan="7"></td></tr><tr><td class="h">20</td><td></td><td></td><td></td><td></td><td></td><td></td><td class="s">sub _build_fields {</td></tr>
+<tr><td class="h">21</td><td><div class="c3">2</div></td><td></td><td></td><td><div class="c3"><a href="lib-Sweet-File-DSV-pm--subroutine.html#L21">2</a></div></td><td></td><td><div>4</div></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;my $self = shift;</td></tr>
+<tr><td class="h">22</td><td colspan="7"></td></tr><tr><td class="h">23</td><td><div class="c3">2</div></td><td></td><td></td><td></td><td></td><td><div>35</div></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;my $header&nbsp;&nbsp;&nbsp;&nbsp;= $self-&gt;header;</td></tr>
+<tr><td class="h">24</td><td><div class="c3">2</div></td><td></td><td></td><td></td><td></td><td><div>38</div></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;my $separator = $self-&gt;separator;</td></tr>
+<tr><td class="h">25</td><td colspan="7"></td></tr><tr><td class="h">26</td><td></td><td></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;# If separator is a pipe, escape it.</td></tr>
+<tr><td class="h">27</td><td><div class="c3">2</div></td><td><div class="c3" title="T/F"><a href="lib-Sweet-File-DSV-pm--branch.html#L27">100</a></div></td><td></td><td></td><td></td><td><div>7</div></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;$separator = &#39;\|&#39; if ( $separator eq &#39;|&#39; );</td></tr>
+<tr><td class="h">28</td><td colspan="7"></td></tr><tr><td class="h">29</td><td><div class="c3">2</div></td><td></td><td></td><td></td><td></td><td><div>36</div></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;my @fields = split $separator, $header;</td></tr>
+<tr><td class="h">30</td><td colspan="7"></td></tr><tr><td class="h">31</td><td><div class="c3">2</div></td><td></td><td></td><td></td><td></td><td><div>65</div></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;return \@fields;</td></tr>
+<tr><td class="h">32</td><td></td><td></td><td></td><td></td><td></td><td></td><td class="s">}</td></tr>
+<tr><td class="h">33</td><td colspan="7"></td></tr><tr><td class="h">34</td><td></td><td></td><td></td><td></td><td></td><td></td><td class="s">has no_header =&gt; (</td></tr>
+<tr><td class="h">35</td><td></td><td></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;default =&gt; sub { 0 },</td></tr>
+<tr><td class="h">36</td><td></td><td></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;is&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=&gt; &#39;ro&#39;,</td></tr>
+<tr><td class="h">37</td><td></td><td></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;isa&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=&gt; &#39;Bool&#39;,</td></tr>
+<tr><td class="h">38</td><td></td><td></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;lazy&nbsp;&nbsp;&nbsp;&nbsp;=&gt; 1,</td></tr>
+<tr><td class="h">39</td><td></td><td></td><td></td><td></td><td></td><td></td><td class="s">);</td></tr>
+<tr><td class="h">40</td><td colspan="7"></td></tr><tr><td class="h">41</td><td></td><td></td><td></td><td></td><td></td><td></td><td class="s">has header =&gt; (</td></tr>
+<tr><td class="h">42</td><td></td><td></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;builder =&gt; &#39;_build_header&#39;,</td></tr>
+<tr><td class="h">43</td><td></td><td></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;is&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=&gt; &#39;ro&#39;,</td></tr>
+<tr><td class="h">44</td><td></td><td></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;isa&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=&gt; &#39;Maybe[Str]&#39;,</td></tr>
+<tr><td class="h">45</td><td></td><td></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;lazy&nbsp;&nbsp;&nbsp;&nbsp;=&gt; 1,</td></tr>
+<tr><td class="h">46</td><td></td><td></td><td></td><td></td><td></td><td></td><td class="s">);</td></tr>
+<tr><td class="h">47</td><td colspan="7"></td></tr><tr><td class="h">48</td><td></td><td></td><td></td><td></td><td></td><td></td><td class="s">sub _build_header {</td></tr>
+<tr><td class="h">49</td><td><div class="c3">2</div></td><td></td><td></td><td><div class="c3"><a href="lib-Sweet-File-DSV-pm--subroutine.html#L49">2</a></div></td><td></td><td><div>4</div></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;my $self = shift;</td></tr>
+<tr><td class="h">50</td><td colspan="7"></td></tr><tr><td class="h">51</td><td><div class="c3">2</div></td><td><div class="c0" title="-/F"><a href="lib-Sweet-File-DSV-pm--branch.html#L51">50</a></div></td><td></td><td></td><td></td><td><div>52</div></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;return if $self-&gt;no_header;</td></tr>
+<tr><td class="h">52</td><td colspan="7"></td></tr><tr><td class="h">53</td><td><div class="c3">2</div></td><td></td><td></td><td></td><td></td><td><div>53</div></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;my $header = $self-&gt;line(0);</td></tr>
+<tr><td class="h">54</td><td colspan="7"></td></tr><tr><td class="h">55</td><td><div class="c3">2</div></td><td></td><td></td><td></td><td></td><td><div>4</div></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;chomp $header;</td></tr>
+<tr><td class="h">56</td><td colspan="7"></td></tr><tr><td class="h">57</td><td><div class="c3">2</div></td><td></td><td></td><td></td><td></td><td><div>40</div></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;return $header;</td></tr>
+<tr><td class="h">58</td><td></td><td></td><td></td><td></td><td></td><td></td><td class="s">}</td></tr>
+<tr><td class="h">59</td><td colspan="7"></td></tr><tr><td class="h">60</td><td></td><td></td><td></td><td></td><td></td><td></td><td class="s">has separator =&gt; (</td></tr>
+<tr><td class="h">61</td><td></td><td></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;builder&nbsp;&nbsp;=&gt; &#39;_build_separator&#39;,</td></tr>
+<tr><td class="h">62</td><td></td><td></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;is&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=&gt; &#39;ro&#39;,</td></tr>
+<tr><td class="h">63</td><td></td><td></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;isa&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=&gt; &#39;Str&#39;,</td></tr>
+<tr><td class="h">64</td><td></td><td></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;lazy =&gt; 1,</td></tr>
+<tr><td class="h">65</td><td></td><td></td><td></td><td></td><td></td><td></td><td class="s">);</td></tr>
+<tr><td class="h">66</td><td colspan="7"></td></tr><tr><td class="h">67</td><td></td><td></td><td></td><td></td><td></td><td></td><td class="s">has _rows =&gt; (</td></tr>
+<tr><td class="h">68</td><td></td><td></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;builder =&gt; &#39;_build_rows&#39;,</td></tr>
+<tr><td class="h">69</td><td></td><td></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;traits&nbsp;&nbsp;=&gt; [&#39;Array&#39;],</td></tr>
+<tr><td class="h">70</td><td></td><td></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;handles =&gt; {</td></tr>
+<tr><td class="h">71</td><td></td><td></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;num_rows =&gt; &#39;count&#39;,</td></tr>
+<tr><td class="h">72</td><td></td><td></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;row&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=&gt; &#39;get&#39;,</td></tr>
+<tr><td class="h">73</td><td></td><td></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;rows&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=&gt; &#39;elements&#39;,</td></tr>
+<tr><td class="h">74</td><td></td><td></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;},</td></tr>
+<tr><td class="h">75</td><td></td><td></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;is&nbsp;&nbsp;&nbsp;=&gt; &#39;ro&#39;,</td></tr>
+<tr><td class="h">76</td><td></td><td></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;isa&nbsp;&nbsp;=&gt; &#39;ArrayRef[Str]&#39;,</td></tr>
+<tr><td class="h">77</td><td></td><td></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;lazy =&gt; 1,</td></tr>
+<tr><td class="h">78</td><td></td><td></td><td></td><td></td><td></td><td></td><td class="s">);</td></tr>
+<tr><td class="h">79</td><td colspan="7"></td></tr><tr><td class="h">80</td><td></td><td></td><td></td><td></td><td></td><td></td><td class="s">sub _build_rows {</td></tr>
+<tr><td class="h">81</td><td><div class="c3">2</div></td><td></td><td></td><td><div class="c3"><a href="lib-Sweet-File-DSV-pm--subroutine.html#L81">2</a></div></td><td></td><td><div>3</div></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;my $self = shift;</td></tr>
+<tr><td class="h">82</td><td colspan="7"></td></tr><tr><td class="h">83</td><td><div class="c3">2</div></td><td></td><td></td><td></td><td></td><td><div>52</div></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;my @rows = $self-&gt;lines;</td></tr>
+<tr><td class="h">84</td><td colspan="7"></td></tr><tr><td class="h">85</td><td></td><td></td><td></td><td></td><td></td><td></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;# Remove header, if any.</td></tr>
+<tr><td class="h">86</td><td><div class="c3">2</div></td><td><div class="c0" title="T/-"><a href="lib-Sweet-File-DSV-pm--branch.html#L86">50</a></div></td><td></td><td></td><td></td><td><div>36</div></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;shift @rows unless $self-&gt;no_header;</td></tr>
+<tr><td class="h">87</td><td colspan="7"></td></tr><tr><td class="h">88</td><td><div class="c3">2</div></td><td></td><td></td><td></td><td></td><td><div>5</div></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;chomp @rows;</td></tr>
+<tr><td class="h">89</td><td colspan="7"></td></tr><tr><td class="h">90</td><td><div class="c3">2</div></td><td></td><td></td><td></td><td></td><td><div>60</div></td><td class="s">&nbsp;&nbsp;&nbsp;&nbsp;return \@rows;</td></tr>
+<tr><td class="h">91</td><td></td><td></td><td></td><td></td><td></td><td></td><td class="s">}</td></tr>
+<tr><td class="h">92</td><td colspan="7"></td></tr><tr><td class="h">93</td><td></td><td></td><td></td><td></td><td></td><td></td><td class="s">__PACKAGE__-&gt;meta-&gt;make_immutable;</td></tr>
+<tr><td class="h">94</td><td colspan="7"></td></tr><tr><td class="h">95</td><td></td><td></td><td></td><td></td><td></td><td></td><td class="s">1;</td></tr>
+<tr><td class="h">96</td><td colspan="7"></td></tr><tr><td class="h">97 - 157</td><td colspan="6"></td><td class="s"><pre>=head1 NAME
 
 Sweet::File::DSV
 
@@ -158,6 +158,6 @@ Field separator. Must be provided at creation time or in a sub class with C&lt;_
 L&lt;Delimiter-separated values|https://en.wikipedia.org/wiki/Delimiter-separated_values&gt; Wikipedia page.
 
 =cut</pre></td></tr>
-<tr><td class="h">158</td><td colspan="6"></td></tr></table>
+<tr><td class="h">158</td><td colspan="7"></td></tr></table>
 </body>
 </html>
