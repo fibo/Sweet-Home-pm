@@ -7,7 +7,7 @@ use Try::Tiny;
 
 use MooseX::Types::Path::Class;
 use File::Path qw(make_path remove_tree);
-use File::Slurp;
+use File::Slurp::Tiny qw(read_dir);
 use Try::Tiny;
 
 use Sweet::File;

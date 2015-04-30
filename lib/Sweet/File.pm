@@ -8,13 +8,13 @@ use Try::Tiny;
 use File::Basename;
 use File::Copy;
 use File::Remove 'remove';
-use File::Slurp;
+use File::Slurp::Tiny qw(read_lines);
 use File::Spec;
 
 use MooseX::Types::Path::Class;
 
-has _read => (
-    builder => '_read_file',
+has _lines => (
+    builder => '_read_lines',
     handles => {
         lines     => 'elements',
         line      => 'get',
@@ -26,7 +26,14 @@ has _read => (
     traits => ['Array'],
 );
 
-sub _read_file { read_file( shift->path, array_ref => 1 ) }
+sub _read_lines {
+    read_lines(
+        shift->path,
+        binmode   => ':utf8',
+        array_ref => 1,
+        chomp     => 1,
+    );
+}
 
 has dir => (
     builder   => '_build_dir',
@@ -214,13 +221,20 @@ Sweet::File
 
     say $file->num_lines if $file->is_a_plain_file;
 
-=head2 _read_file
+=head2 _read_lines
 
-Reads the file contents using L<File::Slurp> C<read_file> function.
+Reads the file contents using L<File::Slurp::Tiny> C<read_lines> function.
 
 Defaults to
 
-    sub { read_file( shift->path, array_ref => 1 ) }
+    sub _read_lines {
+        read_lines(
+            shift->path,
+            binmode   => ':utf8',
+            array_ref => 1,
+            chomp     => 1,
+        );
+    }
 
 and must return an array_ref of strings containing file lines.
 

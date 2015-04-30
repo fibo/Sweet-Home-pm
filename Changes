@@ -1,10 +1,15 @@
-2015-xx- v0.04
+
+2015-04-30 v0.04
 + Added code coverage report
 + Added Sweet::Dir::file_list
++ Moved from File::Slurp to File::Slurp::Tiny,
+  thanks to [an issue opened by ETHER](https://github.com/fibo/Sweet-Home-pm/issues/1)
+
 2015-04-20 v0.03
 + Added class diagram
 + Can build Sweet::File passsing only path
 + Sweet::Dir->file accepts optional sub builder reference
+
 2015-01-23 v0.02
 + Delimited separated value files:
   + Sweet::File::DSV
@@ -12,5 +17,6 @@
 + both sub_dir('foo','bar') and sub_dir(['foo','bar']) works
 + Dir path is lazy, so a child class can do roles
 + use namespace::autoclean
+
 2014-12-11 v0.01
 + First release

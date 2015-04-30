@@ -1,7 +1,9 @@
 use strict;
 use warnings;
-use Test::More tests => 14;
 
+use Test::More tests => 15;
+
+use utf8;
 use File::Spec::Functions;
 use Sweet::Dir;
 
@@ -28,7 +30,7 @@ my $empty_file = $test_dir->file('empty_file');
 ok $empty_file->has_zero_size, 'empty file has zero size';
 
 my $file1 = Sweet::File->new( name => 'file1.txt', dir => $test_dir );
-my @file1_lines = ( "Hi,\n", "I am a text file.\n" );
+my @file1_lines = ( "Hi,", "I am a text file." );
 
 is $file1->num_lines, 2, 'num_lines';
 my @got_lines = $file1->lines;
@@ -39,4 +41,7 @@ is $file1->line(1), $file1_lines[1], 'line(1)';
 my $file_from_path = Sweet::File->new(path=>'t/file.t');
 is $file_from_path->name, 'file.t', 'name from path';
 is $file_from_path->dir->path, 't', 'dir from path';
+
+my $utf8 = Sweet::File->new(path=>'t/utf8.txt');
+is $utf8->line(0), '£¥€$', 'read utf8';
 
