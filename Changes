@@ -1,5 +1,9 @@
 
 2015-04-30 v0.04
++ Added Sweet::Types
++ Sweet::File::dir coerces to Sweet::Dir
+
+2015-04-30 v0.04
 + Added code coverage report
 + Added Sweet::Dir::file_list
 + Moved from File::Slurp to File::Slurp::Tiny,
@@ -14,7 +18,7 @@
 + Delimited separated value files:
   + Sweet::File::DSV
     `- Sweet::File::CSV
-+ both sub_dir('foo','bar') and sub_dir(['foo','bar']) works
++ both sub_dir('foo','bar') and sub_dir(['foo','bar']) work
 + Dir path is lazy, so a child class can do roles
 + use namespace::autoclean
 

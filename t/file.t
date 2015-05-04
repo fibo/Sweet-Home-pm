@@ -1,10 +1,11 @@
+use utf8;
 use strict;
 use warnings;
 
-use Test::More tests => 15;
+use Test::More tests => 19;
 
-use utf8;
 use File::Spec::Functions;
+use File::Temp qw(tempdir);
 use Sweet::Dir;
 
 use Sweet::File;
@@ -44,4 +45,19 @@ is $file_from_path->dir->path, 't', 'dir from path';
 
 my $utf8 = Sweet::File->new(path=>'t/utf8.txt');
 is $utf8->line(0), '£¥€$', 'read utf8';
+
+my $temp_path = tempdir();
+my $temp = Sweet::Dir->new( path => $temp_path )->create;
+
+my $copied_file = $file->copy_to_dir($temp);
+ok $copied_file->is_a_plain_file, 'copy_to_dir';
+
+my $copied_file1 = $file1->copy_to_dir($temp_path);
+ok $copied_file1->is_a_plain_file, 'copy_to_dir coerces Str to Sweet::Dir';
+
+my $copied_file2 = $file1->copy_to_dir([$temp_path, 'foo']);
+ok $copied_file2->is_a_plain_file, 'copy_to_dir coerces ArrayRef to Sweet::Dir';
+
+my $copied_file3 = $file->copy_to_dir($temp->sub_dir('bar'));
+ok $copied_file3->is_a_plain_file, 'copy_to_dir creates target dir';
 

@@ -35,10 +35,10 @@ WriteMakefile(
     },
     test          => { TESTS => 't/*.t' },
     TEST_REQUIRES => {
+        'File::Temp'    => '0.2304',
         'Test::Compile' => '1.2.1',
         'Test::More'    => '1.001009',
         'Test::Pod'     => '1.48',
-        'File::Temp'    => '0.2304',
     }
 );
 

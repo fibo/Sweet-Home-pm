@@ -10,8 +10,8 @@ use File::Copy;
 use File::Remove 'remove';
 use File::Slurp::Tiny qw(read_lines);
 use File::Spec;
-
 use MooseX::Types::Path::Class;
+use Sweet::Types;
 
 has _lines => (
     builder => '_read_lines',
@@ -37,6 +37,7 @@ sub _read_lines {
 
 has dir => (
     builder   => '_build_dir',
+    coerce => 1,
     is        => 'ro',
     isa       => 'Sweet::Dir',
     lazy      => 1,
@@ -108,9 +109,8 @@ sub _build_path {
 }
 
 sub copy_to_dir {
-    my $self = shift;
+    my ($self,$dir) = @_;
 
-    my $dir  = shift;
     my $name = $self->name;
 
     my $class = $self->meta->name;
@@ -124,6 +124,7 @@ sub copy_to_dir {
 
     my $source_path = $self->path;
     my $target_path = $file_copied->path;
+    $dir = $file_copied->dir;
 
     try {
         $dir->is_a_directory or $dir->create;
