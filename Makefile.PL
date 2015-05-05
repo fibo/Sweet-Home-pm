@@ -27,6 +27,7 @@ WriteMakefile(
         'File::Slurp::Tiny'          => '0.003',
         'File::Spec'                 => '3.47',
         'Moose'                      => '2.1403',
+        'MooseX::Types'              => '0.45',
         'MooseX::Types::Path::Class' => '0.06',
         'namespace::autoclean'       => '0.24',
     },

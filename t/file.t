@@ -30,7 +30,10 @@ ok $file_that_do_not_exists->does_not_exists, 'file does not exists';
 my $empty_file = $test_dir->file('empty_file');
 ok $empty_file->has_zero_size, 'empty file has zero size';
 
-my $file1 = Sweet::File->new( name => 'file1.txt', dir => $test_dir );
+my $file1 = Sweet::File->new(
+    name => 'file1.txt',
+    dir => $test_dir
+);
 my @file1_lines = ( "Hi,", "I am a text file." );
 
 is $file1->num_lines, 2, 'num_lines';

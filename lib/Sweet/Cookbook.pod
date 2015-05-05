@@ -1,0 +1,16 @@
+
+=head1 NAME
+
+Sweet::Cookbook
+
+=head1 FILES
+
+=head2 Create a semaphore file class
+
+In file C<lib/My/Semaphore.pm>
+
+Somewhere in your code
+
+
+=cut
+

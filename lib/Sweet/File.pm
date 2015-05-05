@@ -37,7 +37,7 @@ sub _read_lines {
 
 has dir => (
     builder   => '_build_dir',
-    coerce => 1,
+    coerce    => 1,
     is        => 'ro',
     isa       => 'Sweet::Dir',
     lazy      => 1,
@@ -51,17 +51,16 @@ sub _build_dir {
 
     my $dirname = dirname($path);
 
-    my $dir = Sweet::Dir->new( path => $dirname );
+    my $dir = Sweet::Dir->new(path => $dirname);
 
     return $dir;
 }
 
 has name => (
-    builder   => '_build_name',
-    is        => 'ro',
-    isa       => 'Str',
-    lazy      => 1,
-    predicate => 'has_name',
+    builder => '_build_name',
+    is      => 'ro',
+    isa     => 'Str',
+    lazy    => 1,
 );
 
 sub _build_name {
@@ -75,17 +74,19 @@ sub _build_name {
 }
 
 has extension => (
-    default => sub {
-        my $path = shift->path;
-
-        my ( $filename, $dirname, $suffix ) = fileparse( $path, qr/[^.]*$/ );
-
-        return $suffix;
-    },
-    is        => 'ro',
-    isa       => 'Str',
-    lazy      => 1,
+    builder => '_build_extension',
+    is      => 'ro',
+    isa     => 'Str',
+    lazy    => 1,
 );
+
+sub _build_extension {
+    my $path = shift->path;
+
+    my ($filename, $dirname, $suffix) = fileparse($path, qr/[^.]*$/);
+
+    return $suffix;
+}
 
 has path => (
     builder => '_build_path',
@@ -103,20 +104,20 @@ sub _build_path {
 
     my $dir_path = $dir->path;
 
-    my $path = File::Spec->catfile( $dir_path, $name );
+    my $path = File::Spec->catfile($dir_path, $name);
 
     return $path;
 }
 
 sub copy_to_dir {
-    my ($self,$dir) = @_;
+    my ($self, $dir) = @_;
 
     my $name = $self->name;
 
     my $class = $self->meta->name;
 
     my $file_copied = try {
-        $class->new( dir => $dir, name => $name );
+        $class->new(dir => $dir, name => $name);
     }
     catch {
         confess $_;
@@ -134,7 +135,7 @@ sub copy_to_dir {
     };
 
     try {
-        copy( $source_path, $target_path );
+        copy($source_path, $target_path);
     }
     catch {
         confess $_;
@@ -145,7 +146,7 @@ sub copy_to_dir {
 
 sub does_not_exists { !-e shift->path }
 
-sub erase { remove( shift->path ) }
+sub erase { remove(shift->path) }
 
 sub has_zero_size { -z shift->path }
 
