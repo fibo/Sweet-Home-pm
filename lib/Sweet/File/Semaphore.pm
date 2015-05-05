@@ -1,5 +1,7 @@
 package Sweet::File::Semaphore;
+use v5.12;
 use Moose;
+use namespace::autoclean;
 
 extends 'Sweet::File';
 
@@ -12,11 +14,11 @@ has linked_file => (
     required => 1,
 );
 
-sub create {
-    my $self = shift;
-}
+sub _build_lines { return [$$] }
 
 sub _build_extension { 'ok' }
+
+sub _build_dir { shift->linked_file->dir }
 
 sub _build_name {
     my $self = shift;
@@ -51,7 +53,7 @@ Sweet::File::Semaphore
     my $semaphore = Sweet::File::Semaphore->new(linked_file=>$file);
     say $semaphore; # /path/to/dir/foo.dat.ok
 
-    $semaphore->create;
+    $semaphore->write;
 
 =head1 ATTRIBUTES
 
@@ -59,7 +61,7 @@ Sweet::File::Semaphore
 
 =head1 METHODS
 
-=head2 create
+=head2 write
 
 =cut
 

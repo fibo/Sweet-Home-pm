@@ -2,6 +2,7 @@
 2015-04-30 v0.04
 + Added Sweet::Types
 + Sweet::File::dir coerces to Sweet::Dir
++ use Perl v5.12
 
 2015-04-30 v0.04
 + Added code coverage report

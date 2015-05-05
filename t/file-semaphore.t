@@ -24,8 +24,8 @@ my $file1 = $file->copy_to_dir($temp);
 my $semaphore1 = Sweet::File::Semaphore->new(linked_file => $file1);
 my $semaphore1_path = $file1->path . '.ok';
 
-is $semaphore1->path, $semaphore1_path, 'defaults to /apth/to/file.ext.ok';
+is $semaphore1->path, $semaphore1_path, 'defaults to /path/to/file.ext.ok';
 ok $semaphore1->does_not_exists, 'semaphore not created on instance';
-$semaphore1->create;
+$semaphore1->write;
 ok $semaphore1->is_a_plain_file, 'create';
 

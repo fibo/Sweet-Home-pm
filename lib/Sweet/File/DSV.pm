@@ -1,8 +1,16 @@
 package Sweet::File::DSV;
+use v5.12;
 use Moose;
 use namespace::autoclean;
 
 extends 'Sweet::File';
+
+sub BUILDARGS {
+    my ($class,%attribute)=@_;
+
+
+    return \%attribute;
+}
 
 has _fields => (
     builder => '_build_fields',

@@ -1,4 +1,5 @@
 package Sweet::Dir;
+use v5.12;
 use Moose;
 use namespace::autoclean;
 

@@ -1,4 +1,5 @@
 package Sweet::HomeDir;
+use v5.12;
 use Moose;
 use namespace::autoclean;
 

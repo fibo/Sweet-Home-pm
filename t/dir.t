@@ -35,10 +35,10 @@ my $file2 = $test_dir->file('file', sub {
 });
 isa_ok $file2, 'Sweet::File::DSV', 'file() accepts an optional reference to a sub builder';
 
-my $temp = Sweet::Dir->new( path => tempdir() )->sub_dir('created');
-ok $temp->does_not_exists, 'to be created dir does not exists';
-$temp->create;
-ok $temp->is_a_directory, 'created dir now exists';
+my $temp_dir = Sweet::Dir->new( path => tempdir() )->sub_dir('created');
+ok $temp_dir->does_not_exists, 'to be created dir does not exists';
+$temp_dir->create;
+ok $temp_dir->is_a_directory, 'created dir now exists';
 
 my @expected_files1 = sort qw(file1.csv  file1.dat  file1.txt file2 file2.ext);
 my @got_files1 = sort $dir1->file_list;

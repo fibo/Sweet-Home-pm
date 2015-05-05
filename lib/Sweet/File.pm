@@ -1,4 +1,5 @@
 package Sweet::File;
+use v5.12;
 use Moose;
 use namespace::autoclean;
 
@@ -10,6 +11,7 @@ use File::Copy;
 use File::Remove 'remove';
 use File::Slurp::Tiny qw(read_lines);
 use File::Spec;
+use Moose::Util::TypeConstraints;
 use MooseX::Types::Path::Class;
 use Sweet::Types;
 
@@ -27,9 +29,14 @@ has _lines => (
 );
 
 sub _read_lines {
-    read_lines(
-        shift->path,
-        binmode   => ':utf8',
+    my $self = shift;
+
+    my $encoding = $self->encoding;
+    my $path = $self->path;
+
+    return read_lines(
+        $path,
+        binmode   => ":$encoding",
         array_ref => 1,
         chomp     => 1,
     );
@@ -55,6 +62,15 @@ sub _build_dir {
 
     return $dir;
 }
+
+my @encodings = qw(utf8);
+
+has encoding => (
+    default=>sub{'utf8'},
+is=>'ro',
+isa=>enum(\@encodings),
+required=>1,
+);
 
 has name => (
     builder => '_build_name',
@@ -107,6 +123,35 @@ sub _build_path {
     my $path = File::Spec->catfile($dir_path, $name);
 
     return $path;
+}
+
+sub append {
+    my( $self,@lines) = @_;
+
+    my $encoding = $self->encoding;
+    my $path = $self->path;
+
+    try {
+    write_file( $path, join("\n",@lines), binmode=> $encoding, append => 1 );
+    }
+    catch {
+        confess $_;
+    };
+
+}
+
+sub write {
+    my $self = shift;
+
+    my $encoding = $self->encoding;
+    my $path = $self->path;
+
+    try {
+    write_file( $path, $self->_lines, binmode=> $encoding );
+    }
+    catch {
+        confess $_;
+    };
 }
 
 sub copy_to_dir {
@@ -183,6 +228,10 @@ Sweet::File
 
 =head2 dir
 
+=head2 encoding
+
+Defaults to C<utf8>.
+
 =head2 extension
 
 =head2 name
@@ -190,6 +239,8 @@ Sweet::File
 =head2 path
 
 =head1 METHODS
+
+=head2 append
 
 =head2 copy_to_dir
 
@@ -223,13 +274,15 @@ Sweet::File
 
     say $file->num_lines if $file->is_a_plain_file;
 
-=head2 _read_lines
+=head2 write
+
+=head2 _build_lines
 
 Reads the file contents using L<File::Slurp::Tiny> C<read_lines> function.
 
 Defaults to
 
-    sub _read_lines {
+    sub _build_lines {
         read_lines(
             shift->path,
             binmode   => ':utf8',

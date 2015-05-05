@@ -3,14 +3,13 @@
 
 Sweet::Cookbook
 
-=head1 FILES
+=head2 Create a temporary dir
 
-=head2 Create a semaphore file class
+    use File::Temp qw(tempdir);
+    use Sweet::Dir;
 
-In file C<lib/My/Semaphore.pm>
-
-Somewhere in your code
-
+    my $temp_dir = Sweet::Dir->new( path => tempdir() );
+    $temp_dir->create;
 
 =cut
 
