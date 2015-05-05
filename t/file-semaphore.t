@@ -27,5 +27,5 @@ my $semaphore1_path = $file1->path . '.ok';
 is $semaphore1->path, $semaphore1_path, 'defaults to /path/to/file.ext.ok';
 ok $semaphore1->does_not_exists, 'semaphore not created on instance';
 $semaphore1->write;
-ok $semaphore1->is_a_plain_file, 'create';
+ok $semaphore1->is_a_plain_file, 'write';
 

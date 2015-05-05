@@ -3,13 +3,45 @@ use v5.12;
 use Moose;
 use namespace::autoclean;
 
+use Carp;
+use Try::Tiny;
+
 extends 'Sweet::File';
+
+use Data::Dumper;
 
 sub BUILDARGS {
     my ($class,%attribute)=@_;
 
+    say Dumper(%attribute);
+
+    # init_arg does not work with Array trait.
+    if (my $fields_arrayref = $attribute{fields}){
+      $attribute{_fields} = $fields_arrayref;
+      delete $attribute{fields};
+    }
 
     return \%attribute;
+}
+
+sub BUILD {
+my $self = shift;
+
+my $has_fields = $self->has_fields;
+my $has_header = $self->has_header;
+
+
+    # If attribute fields is provided and no_header is 0, fill header.
+
+    # If file exists, attribute fields depends on header and separator.
+    if ($self->is_a_plain_file) {
+if (not $has_header) {
+    my $header = $self->fields;
+say $self->dump;
+#confess "Cannot compute file fields";
+}
+    }
+    # If file does not exists, header depends on no_header, fields and separator.
 }
 
 has _fields => (
@@ -19,9 +51,10 @@ has _fields => (
         fields     => 'elements',
         num_fields => 'count',
     },
-    is     => 'ro',
+    is     => 'rw',
     isa    => 'ArrayRef[Str]',
     lazy   => 1,
+    predicate => 'has_fields',
     traits => ['Array'],
 );
 
@@ -48,9 +81,11 @@ has no_header => (
 
 has header => (
     builder => '_build_header',
-    is      => 'ro',
+    is      => 'rw',
     isa     => 'Maybe[Str]',
     lazy    => 1,
+    predicate => 'has_header',
+    writer => '_write_header',
 );
 
 sub _build_header {
@@ -72,6 +107,8 @@ has separator => (
     lazy => 1,
 );
 
+sub _build_separator { "\t" }
+
 has _rows => (
     builder => '_build_rows',
     traits  => ['Array'],
@@ -92,8 +129,6 @@ sub _build_rows {
 
     # Remove header, if any.
     shift @rows unless $self->no_header;
-
-    chomp @rows;
 
     return \@rows;
 }

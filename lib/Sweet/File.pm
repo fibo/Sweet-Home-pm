@@ -9,14 +9,14 @@ use Try::Tiny;
 use File::Basename;
 use File::Copy;
 use File::Remove 'remove';
-use File::Slurp::Tiny qw(read_lines);
+use File::Slurp::Tiny qw(write_file read_lines);
 use File::Spec;
 use Moose::Util::TypeConstraints;
 use MooseX::Types::Path::Class;
 use Sweet::Types;
 
 has _lines => (
-    builder => '_read_lines',
+    builder => '_build_lines',
     handles => {
         lines     => 'elements',
         line      => 'get',
@@ -28,11 +28,11 @@ has _lines => (
     traits => ['Array'],
 );
 
-sub _read_lines {
+sub _build_lines {
     my $self = shift;
 
     my $encoding = $self->encoding;
-    my $path = $self->path;
+    my $path     = $self->path;
 
     return read_lines(
         $path,
@@ -66,10 +66,10 @@ sub _build_dir {
 my @encodings = qw(utf8);
 
 has encoding => (
-    default=>sub{'utf8'},
-is=>'ro',
-isa=>enum(\@encodings),
-required=>1,
+    default  => sub { 'utf8' },
+    is       => 'ro',
+    isa      => enum(\@encodings),
+    required => 1,
 );
 
 has name => (
@@ -126,13 +126,13 @@ sub _build_path {
 }
 
 sub append {
-    my( $self,@lines) = @_;
+    my ($self, @lines) = @_;
 
     my $encoding = $self->encoding;
-    my $path = $self->path;
+    my $path     = $self->path;
 
     try {
-    write_file( $path, join("\n",@lines), binmode=> $encoding, append => 1 );
+        write_file($path, join("\n", @lines), binmode => $encoding, append => 1);
     }
     catch {
         confess $_;
@@ -144,10 +144,10 @@ sub write {
     my $self = shift;
 
     my $encoding = $self->encoding;
-    my $path = $self->path;
+    my $path     = $self->path;
 
     try {
-    write_file( $path, $self->_lines, binmode=> $encoding );
+        write_file($path, $self->_lines, binmode => $encoding);
     }
     catch {
         confess $_;
@@ -201,7 +201,7 @@ sub is_executable { -x shift->path }
 
 sub is_writable { -w shift->path }
 
-use overload q("") => sub { shift->path };
+use overload q("") => sub { shift->path }, bool => sub { 1 }, fallback => 1;
 
 __PACKAGE__->meta->make_immutable;
 

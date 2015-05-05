@@ -111,7 +111,7 @@ sub sub_dir {
     return $sub_dir;
 }
 
-use overload q("") => sub { shift->path };
+use overload q("") => sub { shift->path }, bool => sub { 1 }, fallback => 1;
 
 __PACKAGE__->meta->make_immutable;
 
