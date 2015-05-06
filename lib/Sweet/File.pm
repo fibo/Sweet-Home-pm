@@ -34,12 +34,16 @@ sub _build_lines {
     my $encoding = $self->encoding;
     my $path     = $self->path;
 
-    return read_lines(
+    my $lines = try {
+        read_lines(
         $path,
         binmode   => ":$encoding",
         array_ref => 1,
         chomp     => 1,
     );
+}catch { confess $_ };
+
+return $lines;
 }
 
 has dir => (

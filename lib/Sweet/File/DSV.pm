@@ -11,37 +11,55 @@ extends 'Sweet::File';
 use Data::Dumper;
 
 sub BUILDARGS {
-    my ($class,%attribute)=@_;
+    my ($class, %attribute) = @_;
 
-    say Dumper(%attribute);
+    my $fields_arrayref = $attribute{fields};
+    my $header = $attribute{header};
+    my $no_header = $attribute{no_header};
 
-    # init_arg does not work with Array trait.
-    if (my $fields_arrayref = $attribute{fields}){
-      $attribute{_fields} = $fields_arrayref;
-      delete $attribute{fields};
+    if ($no_header and $header) {
+      confess "Argument no_header conflicts with header: $header";
+    }
+
+    if (defined $fields_arrayref) {
+        # Needed 'cause init_arg does not work with Array trait.
+        $attribute{_fields} = $fields_arrayref;
+        delete $attribute{fields};
     }
 
     return \%attribute;
 }
 
 sub BUILD {
-my $self = shift;
+    my $self = shift;
 
-my $has_fields = $self->has_fields;
-my $has_header = $self->has_header;
+    my (@fields, $header);
 
+            my $separator = $self->separator;
 
-    # If attribute fields is provided and no_header is 0, fill header.
+    # If file does not exists, fields depends on header and separator.
+    if ($self->does_not_exists) {
+        try {
+            @fields = $self->fields;
+        }
+        catch {
+            $header = $self->header;
 
-    # If file exists, attribute fields depends on header and separator.
-    if ($self->is_a_plain_file) {
-if (not $has_header) {
-    my $header = $self->fields;
-say $self->dump;
-#confess "Cannot compute file fields";
-}
+        };
     }
-    # If file does not exists, header depends on no_header, fields and separator.
+    else {
+    # If attribute fields is provided, fill header.
+        try {
+            $header = $self->header;
+        }
+        catch {
+        @fields = $self->fields;
+            $header = join($separator, @fields);
+        };
+
+        $self->_write_header($header);
+        say $header;
+    }
 }
 
 has _fields => (
@@ -54,20 +72,26 @@ has _fields => (
     is     => 'rw',
     isa    => 'ArrayRef[Str]',
     lazy   => 1,
-    predicate => 'has_fields',
     traits => ['Array'],
 );
 
 sub _build_fields {
     my $self = shift;
 
-    my $header    = $self->header;
-    my $separator = $self->separator;
+    my ($header,$separator, @fields);
+
+    try{ 
+        $header = $self->header;
+     $separator = $self->separator;
 
     # If separator is a pipe, escape it.
-    $separator = '\|' if ( $separator eq '|' );
+    $separator = '\|' if ($separator eq '|');
 
-    my @fields = split $separator, $header;
+    @fields = split $separator, $header;
+    }
+    catch {
+            confess "Cannot compute file fields", $_;
+    };
 
     return \@fields;
 }
@@ -84,8 +108,7 @@ has header => (
     is      => 'rw',
     isa     => 'Maybe[Str]',
     lazy    => 1,
-    predicate => 'has_header',
-    writer => '_write_header',
+    writer  => '_write_header',
 );
 
 sub _build_header {
@@ -95,19 +118,15 @@ sub _build_header {
 
     my $header = $self->line(0);
 
-    chomp $header;
-
     return $header;
 }
 
 has separator => (
-    builder  => '_build_separator',
-    is       => 'ro',
-    isa      => 'Str',
-    lazy => 1,
+    builder => '_build_separator',
+    is      => 'ro',
+    isa     => 'Str',
+    lazy    => 1,
 );
-
-sub _build_separator { "\t" }
 
 has _rows => (
     builder => '_build_rows',

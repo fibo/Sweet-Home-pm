@@ -16,7 +16,9 @@ Sweet::File::CSV
 
 =head1 SYNOPSIS
 
-    my $csv = Sweet::File::CSV->new(dir => $dir, name => 'file.csv');
+    my $csv = Sweet::File::CSV->new(
+      path => '/path/to/file.csv'
+    );
 
 =head1 INHERITANCE
 
