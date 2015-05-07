@@ -5,7 +5,7 @@ use Test::More tests => 9;
 
 use File::Temp qw(tempdir);
 use Sweet::Dir;
-use Sweet::File::DSV;
+use Sweet::File::CSV;
 
 my $test_dir = Sweet::Dir->new( path => 't' );
 
@@ -25,15 +25,14 @@ ok $file->does_not_exists, 'file() returns a reference to a file without creatin
 my $file2 = $test_dir->file('file', sub {
         my ( $dir, $name ) = @_;
 
-        my $file = Sweet::File::DSV->new(
+        my $file = Sweet::File::CSV->new(
             dir       => $dir,
             name      => $name,
-            separator => "\t",
         );
 
         return $file;
 });
-isa_ok $file2, 'Sweet::File::DSV', 'file() accepts an optional reference to a sub builder';
+isa_ok $file2, 'Sweet::File::CSV', 'file() accepts an optional reference to a sub builder';
 
 my $temp_dir = Sweet::Dir->new( path => tempdir() )->sub_dir('created');
 ok $temp_dir->does_not_exists, 'to be created dir does not exists';

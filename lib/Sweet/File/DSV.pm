@@ -14,14 +14,15 @@ sub BUILDARGS {
     my ($class, %attribute) = @_;
 
     my $fields_arrayref = $attribute{fields};
-    my $header = $attribute{header};
-    my $no_header = $attribute{no_header};
+    my $header          = $attribute{header};
+    my $no_header       = $attribute{no_header};
 
     if ($no_header and $header) {
-      confess "Argument no_header conflicts with header: $header";
+        confess "Argument no_header conflicts with header: $header";
     }
 
     if (defined $fields_arrayref) {
+
         # Needed 'cause init_arg does not work with Array trait.
         $attribute{_fields} = $fields_arrayref;
         delete $attribute{fields};
@@ -35,30 +36,19 @@ sub BUILD {
 
     my (@fields, $header);
 
-            my $separator = $self->separator;
+    my $separator = $self->separator;
 
-    # If file does not exists, fields depends on header and separator.
-    if ($self->does_not_exists) {
+    if ($self->is_a_plain_file) {
+        # If file exists and attribute fields is provided, fill header.
         try {
+            $header = $self->header;
+        }
+        catch {
             @fields = $self->fields;
-        }
-        catch {
-            $header = $self->header;
-
-        };
-    }
-    else {
-    # If attribute fields is provided, fill header.
-        try {
-            $header = $self->header;
-        }
-        catch {
-        @fields = $self->fields;
             $header = join($separator, @fields);
         };
 
         $self->_write_header($header);
-        say $header;
     }
 }
 
@@ -78,19 +68,19 @@ has _fields => (
 sub _build_fields {
     my $self = shift;
 
-    my ($header,$separator, @fields);
+    my ($header, $separator, @fields);
 
-    try{ 
-        $header = $self->header;
-     $separator = $self->separator;
+    try {
+        $header    = $self->header;
+        $separator = $self->separator;
 
-    # If separator is a pipe, escape it.
-    $separator = '\|' if ($separator eq '|');
+        # If separator is a pipe, escape it.
+        $separator = '\|' if ($separator eq '|');
 
-    @fields = split $separator, $header;
+        @fields = split $separator, $header;
     }
     catch {
-            confess "Cannot compute file fields", $_;
+        confess "Cannot compute file fields", $_;
     };
 
     return \@fields;

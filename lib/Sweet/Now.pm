@@ -1,4 +1,144 @@
+package Sweet::Now;
 
+has _time => (
+    default=> sub {
+my @time = localtime(time);
+
+return \@time;
+    },
+    isa=>'ArrayRef',
+is =>'ro',
+required=>1,
+);
+
+has dd => (
+    default => sub {
+        sprintf "%02d", shift->mday
+    },
+    is   => 'ro',
+    isa  => 'Str',
+    lazy => 1,
+);
+
+has hh => (
+    default => sub {
+        sprintf "%02d", shift->_time->[2]
+    },
+    is   => 'ro',
+    isa  => 'Str',
+    lazy => 1,
+);
+
+has mday => (
+    default => sub {
+        shift->_time->[3]
+    },
+    is   => 'ro',
+    isa  => 'Str',
+    lazy => 1,
+);
+
+has mi => (
+    default => sub {
+        sprintf "%02d", shift->_time->[1]
+    },
+    is   => 'ro',
+    isa  => 'Str',
+    lazy => 1,
+);
+
+has mm => (
+    default => sub {
+        sprintf "%02d", shift->mon
+    },
+    is   => 'ro',
+    isa  => 'Str',
+    lazy => 1,
+);
+
+has mon => (
+    default => sub {
+        shift->_time->[4]
+    },
+    is   => 'ro',
+    isa  => 'Str',
+    lazy => 1,
+);
+
+has sec => (
+    default => sub {
+        shift->_time->[0]
+    },
+    is   => 'ro',
+    isa  => 'Str',
+    lazy => 1,
+);
+
+has ss => (
+    default => sub {
+        sprintf "%02d", shift->sec
+    },
+    is   => 'ro',
+    isa  => 'Str',
+    lazy => 1,
+);
+
+has year => (
+    default => sub {
+        shift->_time->[5]
+    },
+    is   => 'ro',
+    isa  => 'Str',
+    lazy => 1,
+);
+
+has yyyy => (
+    default => sub {
+        my $year = shift->year;
+
+        $year += 1900;
+
+        return sprintf "%04d", $year;
+    },
+    is   => 'ro',
+    isa  => 'Str',
+    lazy => 1,
+);
+
+sub mihhss {
+my $self = shift;
+
+my $mi = $self->mi;
+my $hh = $self->hh;
+my $ss = $self->ss;
+
+return "$mi$hh$ss";
+}
+
+sub yyyymmddmihhss {
+my $self = shift;
+
+my $yyyy = $self->yyyy;
+my $mm = $self->mm;
+my $dd = $self->dd;
+my $mi = $self->mi;
+my $hh = $self->hh;
+my $ss = $self->ss;
+
+return "$yyyy$mm$dd$mi$hh$ss";
+}
+
+sub yyyymmdd {
+my $self = shift;
+
+my $yyyy = $self->yyyy;
+my $mm = $self->mm;
+my $dd = $self->dd;
+
+return "$yyyy$mm$dd";
+}
+
+1;
 __END__
 
 my ($sec,$min,$hour,$mday,$mon,$year,$wday,$yday,$isdst) = localtime(time);

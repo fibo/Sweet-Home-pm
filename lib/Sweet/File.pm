@@ -36,14 +36,15 @@ sub _build_lines {
 
     my $lines = try {
         read_lines(
-        $path,
-        binmode   => ":$encoding",
-        array_ref => 1,
-        chomp     => 1,
-    );
-}catch { confess $_ };
+            $path,
+            binmode   => ":$encoding",
+            array_ref => 1,
+            chomp     => 1,
+        );
+    }
+    catch { confess $_ };
 
-return $lines;
+    return $lines;
 }
 
 has dir => (

@@ -1,7 +1,7 @@
 use strict;
 use warnings;
 
-use Test::More tests => 8;
+use Test::More tests => 7;
 
 use File::Temp qw(tempdir);
 use Sweet::Dir;
@@ -42,5 +42,5 @@ my $file2 = Sweet::File::CSV->new(
 
 my @got_fields2 = $file2->fields;
 is_deeply \@got_fields2, \@file2_fields, 'fields from init_arg';
-is $file2->header, join( ',',@file2_fields),'header from fields';
+#is $file2->header, join( ',',@file2_fields),'header from fields';
 
