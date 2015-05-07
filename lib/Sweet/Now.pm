@@ -1,4 +1,6 @@
 package Sweet::Now;
+use Moose;
+use namespace::autoclean;
 
 has _time => (
     default=> sub {
@@ -138,8 +140,31 @@ my $dd = $self->dd;
 return "$yyyy$mm$dd";
 }
 
+__PACKAGE__->meta->make_immutable;
+
 1;
+
 __END__
+
+=head1 NAME
+
+Sweet::File
+
+=head1 SYNOPSIS
+
+    use Sweet::Now;
+
+    my $now = Sweet::Now->new;
+
+    my $file2 = Sweet::File->new(path => '/path/to/file');
+
+=head1 ATTRIBUTES
+
+=head2 sec
+
+=head2 min
+
+=cut
 
 my ($sec,$min,$hour,$mday,$mon,$year,$wday,$yday,$isdst) = localtime(time);
 

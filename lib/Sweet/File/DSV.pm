@@ -74,10 +74,7 @@ sub _build_fields {
         $header    = $self->header;
         $separator = $self->separator;
 
-        # If separator is a pipe, escape it.
-        $separator = '\|' if ($separator eq '|');
-
-        @fields = split $separator, $header;
+        @fields = $self->split_row->(0);
     }
     catch {
         confess "Cannot compute file fields", $_;
@@ -140,6 +137,14 @@ sub _build_rows {
     shift @rows unless $self->no_header;
 
     return \@rows;
+}
+
+sub split_row {
+my $self = shift;
+
+my $separator = shift;
+
+return $self->split_line->($separator);
 }
 
 __PACKAGE__->meta->make_immutable;

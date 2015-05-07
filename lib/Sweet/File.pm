@@ -206,6 +206,25 @@ sub is_executable { -x shift->path }
 
 sub is_writable { -w shift->path }
 
+sub split_line {
+    my $self = shift;
+
+    return sub {
+        my $separator = shift;
+
+        # If separator is a pipe, escape it.
+        $separator = '\|' if ($separator eq '|');
+
+        return sub {
+            my $num_line = shift;
+
+            my $line = $self->line($num_line);
+
+            return split $separator, $line;
+          }
+      }
+}
+
 use overload q("") => sub { shift->path }, bool => sub { 1 }, fallback => 1;
 
 __PACKAGE__->meta->make_immutable;
@@ -255,9 +274,21 @@ Defaults to C<utf8>.
 
 =head2 has_zero_size
 
+The C<-z> flag in natural language.
+
+    $file->has_zero_size
+
 =head2 is_a_plain_file
 
+The C<-f> flag in natural language.
+
+    $file->is_a_plain_file
+
 =head2 is_executable
+
+The C<-x> flag in natural language.
+
+    $file->is_executable
 
 =head2 is_writable
 
@@ -278,6 +309,18 @@ Defaults to C<utf8>.
 =head2 num_lines
 
     say $file->num_lines if $file->is_a_plain_file;
+
+=head2 split_line
+
+Get first line splitted on pipe.
+
+    my @parts = $file->split_line->('|')->(0);
+
+Split lines on comma.
+
+    my $splitted_line = $file->split_line->(',');
+    my @parts0 = $split_line->(0);
+    my @parts1 = $split_line->(1);
 
 =head2 write
 
