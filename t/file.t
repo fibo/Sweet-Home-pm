@@ -2,7 +2,7 @@ use utf8;
 use strict;
 use warnings;
 
-use Test::More tests => 20;
+use Test::More tests => 21;
 
 use File::Spec::Functions;
 use File::Temp qw(tempdir);
@@ -42,6 +42,10 @@ my @got_lines = $file1->lines;
 is_deeply \@got_lines, \@file1_lines, 'lines';
 is $file1->line(0), $file1_lines[0], 'line(0)';
 is $file1->line(1), $file1_lines[1], 'line(1)';
+
+my @got_split_line1 = $file1->split_line->('a')->(1);
+my @expected_split_line1 = ('I ', 'm ', ' text file.');
+is_deeply \@got_split_line1, \@expected_split_line1,'split_line';
 
 my $file_from_path = Sweet::File->new(path=>'t/file.t');
 is $file_from_path->name, 'file.t', 'name from path';

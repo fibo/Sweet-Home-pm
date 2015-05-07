@@ -210,17 +210,17 @@ sub split_line {
     my $self = shift;
 
     return sub {
-        my $separator = shift;
+        my $pattern = shift;
 
-        # If separator is a pipe, escape it.
-        $separator = '\|' if ($separator eq '|');
+        # If pattern is a pipe, escape it.
+        $pattern = '\|' if ($pattern eq '|');
 
         return sub {
             my $num_line = shift;
 
             my $line = $self->line($num_line);
 
-            return split $separator, $line;
+            return split $pattern, $line;
           }
       }
 }

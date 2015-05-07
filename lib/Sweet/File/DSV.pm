@@ -39,6 +39,7 @@ sub BUILD {
     my $separator = $self->separator;
 
     if ($self->is_a_plain_file) {
+
         # If file exists and attribute fields is provided, fill header.
         try {
             $header = $self->header;
@@ -140,11 +141,11 @@ sub _build_rows {
 }
 
 sub split_row {
-my $self = shift;
+    my $self = shift;
 
-my $separator = shift;
+    my $separator = $self->separator;
 
-return $self->split_line->($separator);
+    return $self->split_line->($separator);
 }
 
 __PACKAGE__->meta->make_immutable;
