@@ -137,7 +137,12 @@ sub append {
     my $path     = $self->path;
 
     try {
-        write_file($path, join("\n", @lines), binmode => $encoding, append => 1);
+        write_file(
+            $path,
+            $self->_lines,
+            append  => 1,
+            binmode => $encoding
+        );
     }
     catch {
         confess $_;
@@ -319,8 +324,8 @@ Get first line splitted on pipe.
 Split lines on comma.
 
     my $splitted_line = $file->split_line->(',');
-    my @parts0 = $split_line->(0);
-    my @parts1 = $split_line->(1);
+    my @parts0 = $splitted_line->(0);
+    my @parts1 = $splitted_line->(1);
 
 =head2 write
 

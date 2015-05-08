@@ -21,9 +21,8 @@ sub BUILDARGS {
         confess "Argument no_header conflicts with header: $header";
     }
 
+    # Needed 'cause init_arg does not work with Array trait.
     if (defined $fields_arrayref) {
-
-        # Needed 'cause init_arg does not work with Array trait.
         $attribute{_fields} = $fields_arrayref;
         delete $attribute{fields};
     }
@@ -38,9 +37,8 @@ sub BUILD {
 
     my $separator = $self->separator;
 
+    # If file exists and attribute fields is provided, fill header.
     if ($self->is_a_plain_file) {
-
-        # If file exists and attribute fields is provided, fill header.
         try {
             $header = $self->header;
         }
@@ -51,6 +49,21 @@ sub BUILD {
 
         $self->_write_header($header);
     }
+    else {
+        if ($self->has_fields) {
+            @fields = $self->fields;
+            $header = join($separator, @fields);
+
+            # Check if fields and header does not conflict.
+            if ($self->has_header) {
+                confess "Conflict header and fields" unless $header eq $self->header;
+            }
+            else {
+                $self->_write_header($header);
+            }
+        }
+    }
+
 }
 
 has _fields => (
@@ -60,10 +73,11 @@ has _fields => (
         fields     => 'elements',
         num_fields => 'count',
     },
-    is     => 'rw',
-    isa    => 'ArrayRef[Str]',
-    lazy   => 1,
-    traits => ['Array'],
+    is        => 'rw',
+    isa       => 'ArrayRef[Str]',
+    lazy      => 1,
+    predicate => 'has_fields',
+    traits    => ['Array'],
 );
 
 sub _build_fields {
@@ -75,7 +89,7 @@ sub _build_fields {
         $header    = $self->header;
         $separator = $self->separator;
 
-        @fields = $self->split_row->(0);
+        @fields = $self->split_line->($separator)->(0);
     }
     catch {
         confess "Cannot compute file fields", $_;
@@ -92,11 +106,12 @@ has no_header => (
 );
 
 has header => (
-    builder => '_build_header',
-    is      => 'rw',
-    isa     => 'Maybe[Str]',
-    lazy    => 1,
-    writer  => '_write_header',
+    builder   => '_build_header',
+    is        => 'rw',
+    isa       => 'Maybe[Str]',
+    lazy      => 1,
+    predicate => 'has_header',
+    writer    => '_write_header',
 );
 
 sub _build_header {
@@ -143,9 +158,19 @@ sub _build_rows {
 sub split_row {
     my $self = shift;
 
+    my $no_header = $self->no_header;
     my $separator = $self->separator;
 
-    return $self->split_line->($separator);
+    if ($no_header) {
+        return $self->split_line->($separator);
+    }
+    else {
+        return sub {
+            my $num_line = shift;
+
+            return $self->split_line->($separator)->($num_line + 1);
+          }
+    }
 }
 
 __PACKAGE__->meta->make_immutable;
@@ -201,6 +226,14 @@ Field separator. Must be provided at creation time or in a sub class with C<_bui
 =head2 fields
 
     my @fields = $file->fields; # ('FIELD_A', 'FIELD_B')
+
+=head1 split_row
+
+    my $cells = $self->split_row->(0);
+
+    say $_ for @$cells;
+    # foo
+    # bar
 
 =head2 rows
 
