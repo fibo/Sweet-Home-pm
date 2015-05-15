@@ -68,6 +68,8 @@ Code coverage metrics report available L<here|http://g14n.info/Sweet-Home-pm/cod
 
 =item L<Sweet::HomeDir>
 
+=item L<Sweet::SFTP>
+
 =back
 
 =begin HTML
