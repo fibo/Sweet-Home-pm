@@ -65,6 +65,8 @@ Code coverage metrics report available L<here|http://g14n.info/Sweet-Home-pm/cod
 
 =item L<Sweet::File::CSV>
 
+=item L<Sweet::File::Semaphore>
+
 =item L<Sweet::HomeDir>
 
 =item L<Sweet::SFTP>
