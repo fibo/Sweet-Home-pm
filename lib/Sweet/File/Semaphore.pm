@@ -55,13 +55,33 @@ Sweet::File::Semaphore
 
     $semaphore->write;
 
+=head1 INHERITANCE
+
+Inherits from L<Sweet::File>.
+
 =head1 ATTRIBUTES
 
 =head2 linked_file
 
-=head1 METHODS
+Instance of L<Sweet::File>.
 
-=head2 write
+=head1 PRIVATE METHODS
+
+=head2 _build_extension
+
+Returns C<ok>.
+
+=head2 _build_dir
+
+Returns L</linked_file> dir.
+
+=head2 _build_name
+
+Returns L</linked_file> name suffixed with C<.extension>.
+
+=head2 _build_lines
+
+Returns one line containing PID.
 
 =cut
 

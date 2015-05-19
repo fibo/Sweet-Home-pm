@@ -185,7 +185,7 @@ sub copy_to_dir {
         $class->new(dir => $dir, name => $name);
     }
     catch {
-        confess $_;
+        croak $_;
     };
 
     my $source_path = $self->path;
@@ -196,14 +196,14 @@ sub copy_to_dir {
         $dir->is_a_directory or $dir->create;
     }
     catch {
-        confess $_;
+        croak $_;
     };
 
     try {
         copy($source_path, $target_path);
     }
     catch {
-        confess $_;
+        croak $_;
     };
 
     return $file_copied;
@@ -287,6 +287,8 @@ Defaults to C<utf8>.
 =head2 name
 
 =head2 path
+
+=head1 PRIVATE ATTRIBUTES
 
 =head2 _lines
 
@@ -392,6 +394,8 @@ Write lines to a brand new file.
     );
 
     $file->write;
+
+=head1 PRIVATE METHODS
 
 =head2 _build_lines
 

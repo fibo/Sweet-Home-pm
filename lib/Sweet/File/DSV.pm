@@ -8,8 +8,6 @@ use Try::Tiny;
 
 extends 'Sweet::File';
 
-use Data::Dumper;
-
 sub BUILDARGS {
     my ($class, %attribute) = @_;
 
@@ -18,7 +16,7 @@ sub BUILDARGS {
     my $no_header       = $attribute{no_header};
 
     if ($no_header and $header) {
-        confess "Argument no_header conflicts with header: $header";
+        croak "Argument no_header conflicts with header: $header";
     }
 
     # Needed 'cause init_arg does not work with Array trait.
@@ -56,7 +54,7 @@ sub BUILD {
 
             # Check if fields and header does not conflict.
             if ($self->has_header) {
-                confess "Conflict header and fields" unless $header eq $self->header;
+                croak "Conflict header and fields" unless $header eq $self->header;
             }
             else {
                 $self->_write_header($header);
@@ -92,7 +90,7 @@ sub _build_fields {
         @fields = $self->split_line->($separator)->(0);
     }
     catch {
-        confess "Cannot compute file fields", $_;
+        croak "Cannot compute file fields", $_;
     };
 
     return \@fields;
