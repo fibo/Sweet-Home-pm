@@ -2,143 +2,40 @@ package Sweet::Now;
 use Moose;
 use namespace::autoclean;
 
-has _time => (
-    default=> sub {
-my @time = localtime(time);
+use Time::Piece;
 
-return \@time;
-    },
-    isa=>'ArrayRef',
-is =>'ro',
-required=>1,
+has _localtime => (
+    default => sub { localtime() },
+    handles  => [ qw(sec min ymd mdy mon hms mday tzoffset year) ],
+    isa      => 'Time::Piece',
+    is       => 'ro',
+    required => 1,
 );
 
-has dd => (
-    default => sub {
-        sprintf "%02d", shift->mday
-    },
-    is   => 'ro',
-    isa  => 'Str',
-    lazy => 1,
-);
+sub dd { sprintf "%02d", shift->mday }
 
-has hh => (
-    default => sub {
-        sprintf "%02d", shift->_time->[2]
-    },
-    is   => 'ro',
-    isa  => 'Str',
-    lazy => 1,
-);
+sub hh { sprintf "%02d", shift->_localtime->hour }
 
-has mday => (
-    default => sub {
-        shift->_time->[3]
-    },
-    is   => 'ro',
-    isa  => 'Str',
-    lazy => 1,
-);
+sub mi { sprintf "%02d", shift->_localtime->min }
 
-has mi => (
-    default => sub {
-        sprintf "%02d", shift->_time->[1]
-    },
-    is   => 'ro',
-    isa  => 'Str',
-    lazy => 1,
-);
+sub mm { sprintf "%02d", shift->mon }
 
-has mm => (
-    default => sub {
-        sprintf "%02d", shift->mon
-    },
-    is   => 'ro',
-    isa  => 'Str',
-    lazy => 1,
-);
+sub ss { sprintf "%02d", shift->sec }
 
-has mon => (
-    default => sub {
-        shift->_time->[4]
-    },
-    is   => 'ro',
-    isa  => 'Str',
-    lazy => 1,
-);
+sub yyyy { sprintf "%04d", shift->year }
 
-has sec => (
-    default => sub {
-        shift->_time->[0]
-    },
-    is   => 'ro',
-    isa  => 'Str',
-    lazy => 1,
-);
+sub hhmiss { shift->hms('') }
 
-has ss => (
-    default => sub {
-        sprintf "%02d", shift->sec
-    },
-    is   => 'ro',
-    isa  => 'Str',
-    lazy => 1,
-);
+sub yyyymmddhhmiss {
+    my $self = shift;
 
-has year => (
-    default => sub {
-        shift->_time->[5]
-    },
-    is   => 'ro',
-    isa  => 'Str',
-    lazy => 1,
-);
+    my $yyyymmdd = $self->yyyymmdd;
+    my $hhmiss   = $self->hhmiss;
 
-has yyyy => (
-    default => sub {
-        my $year = shift->year;
-
-        $year += 1900;
-
-        return sprintf "%04d", $year;
-    },
-    is   => 'ro',
-    isa  => 'Str',
-    lazy => 1,
-);
-
-sub mihhss {
-my $self = shift;
-
-my $mi = $self->mi;
-my $hh = $self->hh;
-my $ss = $self->ss;
-
-return "$mi$hh$ss";
+    return "$yyyymmdd$hhmiss";
 }
 
-sub yyyymmddmihhss {
-my $self = shift;
-
-my $yyyy = $self->yyyy;
-my $mm = $self->mm;
-my $dd = $self->dd;
-my $mi = $self->mi;
-my $hh = $self->hh;
-my $ss = $self->ss;
-
-return "$yyyy$mm$dd$mi$hh$ss";
-}
-
-sub yyyymmdd {
-my $self = shift;
-
-my $yyyy = $self->yyyy;
-my $mm = $self->mm;
-my $dd = $self->dd;
-
-return "$yyyy$mm$dd";
-}
+sub yyyymmdd { shift->ymd('') }
 
 __PACKAGE__->meta->make_immutable;
 
@@ -156,26 +53,35 @@ Sweet::File
 
     my $now = Sweet::Now->new;
 
-    my $file2 = Sweet::File->new(path => '/path/to/file');
-
 =head1 ATTRIBUTES
 
-=head2 sec
+=head2 _localtime
 
-=head2 min
+Instance of a L<Time::Piece>.
+
+=head1 METHODS
+
+=head2 dd
+
+=head2 hh
+
+=head2 mi
+
+=head2 mm
+
+=head2 ss
+
+=head2 hhmiss
+
+=head2 tzoffset
+
+Delegated to L</_localtime>
+
+=head2 yyyy
+
+=head2 yyyymmdd
+
+=head2 yyyymmddhhmiss
 
 =cut
-
-my ($sec,$min,$hour,$mday,$mon,$year,$wday,$yday,$isdst) = localtime(time);
-
-my $yyyy = $year+1900;
-$mon++;
-my $mm = sprintf "%02d",$mon;
-my $dd = sprintf "%02d",$mday;
-my $hh = sprintf "%02d",$hour;
-my $mi = sprintf "%02d",$min;
-my $ss = sprintf "%02d",$sec;
-
-say "$yyyy$mm$dd$hh$mi$ss";
-
 

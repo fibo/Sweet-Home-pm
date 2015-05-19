@@ -9,7 +9,7 @@ WriteMakefile(
     AUTHOR           => 'G. Casati <fibo@cpan.org>',
     NAME             => 'Sweet::Home',
     LICENSE          => 'artistic_2',
-    MIN_PERL_VERSION => '5.12',
+    MIN_PERL_VERSION => '5.12.0',
     META_MERGE       => {
         resources => {
             homepage   => 'https://metacpan.org/pod/Sweet::Home',
@@ -30,6 +30,8 @@ WriteMakefile(
         'MooseX::Types'              => '0.45',
         'MooseX::Types::Path::Class' => '0.06',
         'namespace::autoclean'       => '0.24',
+        'Net::SFTP::Foreign'         => '1.77',
+        'Time::Piece'                => '1.27',
     },
     BUILD_REQUIRES => {
         'ExtUtils::MakeMaker' => '6.64',
