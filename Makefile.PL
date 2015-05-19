@@ -24,7 +24,6 @@ WriteMakefile(
         'File::HomeDir'              => '1',
         'File::Path'                 => '1.05',
         'File::Remove'               => '1.52',
-        'File::Slurp::Tiny'          => '0.003',
         'File::Spec'                 => '3.47',
         'Moose'                      => '2.1403',
         'MooseX::Types'              => '0.45',

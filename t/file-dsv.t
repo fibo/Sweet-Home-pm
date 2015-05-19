@@ -1,5 +1,6 @@
 use strict;
 use warnings;
+use v5.12;
 
 use Test::More tests => 8;
 

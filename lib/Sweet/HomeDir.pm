@@ -12,7 +12,6 @@ sub _build_path { File::HomeDir->my_home }
 __PACKAGE__->meta->make_immutable;
 
 1;
-
 __END__
 
 =head1 NAME

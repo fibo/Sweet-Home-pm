@@ -8,7 +8,6 @@ use Try::Tiny;
 
 use MooseX::Types::Path::Class;
 use File::Path qw(make_path remove_tree);
-use File::Slurp::Tiny qw(read_dir);
 use Try::Tiny;
 
 use Sweet::File;
@@ -34,7 +33,7 @@ sub create {
       make_path( $path, { error => \$make_path_error } );
     }
     catch {
-      confess $make_path_error;
+      croack $make_path_error;
     };
 }
 
@@ -50,7 +49,7 @@ sub erase {
       remove_path( $path, { error => \$remove_path_error } );
     }
     catch {
-      confess $remove_path_error;
+      croack $remove_path_error;
     };
 }
 
@@ -74,7 +73,7 @@ sub file {
         $builder->( $self, $name );
     }
     catch {
-        confess $_;
+        croak $_;
     };
 
     return $file;
@@ -83,11 +82,15 @@ sub file {
 sub file_list {
     my ( $self, $regexp ) = @_;
 
-    my @files = read_dir( $self->path );
+    my $path = $self->path;
 
-    return @files if not defined $regexp;
+    opendir my ($dir), $path or croak "Could not open $path: $!";
+    my @file_names = grep { not m/ ^ \.\.? $ /x } readdir $dir;
+    closedir $dir;
 
-    return grep { m/$regexp/ } @files;
+    return @file_names if not defined $regexp;
+
+    return grep { m/$regexp/ } @file_names;
 }
 
 sub is_a_directory { -d shift->path }
@@ -116,7 +119,6 @@ use overload q("") => sub { shift->path }, bool => sub { 1 }, fallback => 1;
 __PACKAGE__->meta->make_immutable;
 
 1;
-
 __END__
 
 =head1 NAME

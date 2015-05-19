@@ -1,5 +1,6 @@
 
-0.05 2015-05-15
+0.05 2015-05-19
++ Removed File::Slurp::Tiny,
 + Changed Changes file format
 + Added Sweet::SFTP
 + Added Sweet::Now

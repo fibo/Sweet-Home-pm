@@ -9,15 +9,53 @@ use Try::Tiny;
 use File::Basename;
 use File::Copy;
 use File::Remove 'remove';
-use File::Slurp::Tiny qw(write_file read_lines);
 use File::Spec;
 use Moose::Util::TypeConstraints;
 use MooseX::Types::Path::Class;
 use Sweet::Types;
+use Storable qw(dclone);
+
+sub BUILDARGS {
+    my ($class, %attribute) = @_;
+
+    my $lines_arrayref = $attribute{lines};
+
+    # Needed 'cause init_arg does not work with Array trait.
+    if (defined $lines_arrayref) {
+        # Avoid use an external reference to store an attribute.
+        $attribute{_lines} = dclone($lines_arrayref);
+
+        delete $attribute{lines};
+    }
+
+    return \%attribute;
+}
+
+my $output = sub {
+    my ($mode, $layer, $path, $lines_arrayref) = @_;
+
+    open my $fh, $mode.$layer, $path or croak "Couldn't open $path: $!";
+    $fh->autoflush(1);
+    say $fh $_ for @{$lines_arrayref};
+    close $fh or croak "Couldn't close $path: $!";
+};
+
+my $input = sub {
+    my ($layer, $path) = @_;
+
+    open my $fh, "<:$layer", $path or croak "Couldn't open $path: $!";
+    my @lines =<$fh>;
+    close $fh or croak "Couldn't close $path: $!";
+
+    chomp @lines;
+
+    return \@lines;
+};
 
 has _lines => (
     builder => '_build_lines',
     handles => {
+        add_lines => 'push',
         lines     => 'elements',
         line      => 'get',
         num_lines => 'count',
@@ -34,15 +72,7 @@ sub _build_lines {
     my $encoding = $self->encoding;
     my $path     = $self->path;
 
-    my $lines = try {
-        read_lines(
-            $path,
-            binmode   => ":$encoding",
-            array_ref => 1,
-            chomp     => 1,
-        );
-    }
-    catch { confess $_ };
+    my $lines = $input->($encoding, $path);
 
     return $lines;
 }
@@ -68,6 +98,7 @@ sub _build_dir {
     return $dir;
 }
 
+# TODO see Encode::Supported
 my @encodings = qw(utf8);
 
 has encoding => (
@@ -131,37 +162,16 @@ sub _build_path {
 }
 
 sub append {
-    my ($self, @lines) = @_;
+    my ($self, $lines_arrayref) = @_;
+
+    my @lines = @$lines_arrayref;
+
+    $self->add_lines(@lines);
 
     my $encoding = $self->encoding;
     my $path     = $self->path;
 
-    try {
-        write_file(
-            $path,
-            $self->_lines,
-            append  => 1,
-            binmode => $encoding
-        );
-    }
-    catch {
-        confess $_;
-    };
-
-}
-
-sub write {
-    my $self = shift;
-
-    my $encoding = $self->encoding;
-    my $path     = $self->path;
-
-    try {
-        write_file($path, $self->_lines, binmode => $encoding);
-    }
-    catch {
-        confess $_;
-    };
+    $output->('>>', $encoding, $path, $lines_arrayref);
 }
 
 sub copy_to_dir {
@@ -230,12 +240,21 @@ sub split_line {
       }
 }
 
+sub write {
+    my $self = shift;
+
+    my $encoding = $self->encoding;
+    my $lines_arrayref = $self->_lines;
+    my $path     = $self->path;
+
+    $output->('>', $encoding, $path, $lines_arrayref);
+}
+
 use overload q("") => sub { shift->path }, bool => sub { 1 }, fallback => 1;
 
 __PACKAGE__->meta->make_immutable;
 
 1;
-
 __END__
 
 =head1 NAME
@@ -257,6 +276,8 @@ Sweet::File
 
 =head2 dir
 
+Instance of L<Sweet::Dir>.
+
 =head2 encoding
 
 Defaults to C<utf8>.
@@ -267,15 +288,41 @@ Defaults to C<utf8>.
 
 =head2 path
 
+=head2 _lines
+
 =head1 METHODS
 
 =head2 append
 
+Append lines to a file.
+
+    my @lines = ('first appended line', 'second appended line');
+
+    $file->append(\@lines);
+
 =head2 copy_to_dir
+
+Copy file to a directory.
+
+    $file->copy_to_dir($dir);
+
+Coerces path to L<Sweet::Dir>.
+
+    $file->copy_to_dir('/path/to/dir');
+
+Coerces C<ArrayRef> to L<Sweet::Dir>.
+
+    $file->copy_to_dir(['/path/to', 'dir']);
 
 =head2 does_not_exists
 
+The negation of the C<-e> flag in natural language.
+
 =head2 erase
+
+Removes file, using L<File::Remove>.
+
+    $file->erase
 
 =head2 has_zero_size
 
@@ -297,7 +344,13 @@ The C<-x> flag in natural language.
 
 =head2 is_writable
 
+The C<-w> flag in natural language.
+
+    $file->is_writable
+
 =head2 line
+
+Returns the nth line.
 
     my $line1 = $file->line(0);
     my $line2 = $file->line(1);
@@ -306,7 +359,6 @@ The C<-x> flag in natural language.
 =head2 lines
 
     for my $line ( $file->lines ) {
-        chomp $line;
         $line =~ s/foo/bar/;
         say $line;
     }
@@ -329,22 +381,37 @@ Split lines on comma.
 
 =head2 write
 
+Write lines to a brand new file.
+
+    my @lines = ('first line', 'second line');
+
+    my $file = Sweet::File->new(
+        name => 'brand_new_file.txt',
+        dir => $dir,
+        lines => \@lines,
+    );
+
+    $file->write;
+
 =head2 _build_lines
 
-Reads the file contents using L<File::Slurp::Tiny> C<read_lines> function.
+The L</lines> builder. To be overridden in subclasses, if needed.
 
-Defaults to
+=head2 _build_dir
 
-    sub _build_lines {
-        read_lines(
-            shift->path,
-            binmode   => ':utf8',
-            array_ref => 1,
-            chomp     => 1,
-        );
-    }
+The L</dir> builder. To be overridden in subclasses, if needed.
 
-and must return an array_ref of strings containing file lines.
+=head2 _build_name
+
+The L</name> builder. To be overridden in subclasses, if needed.
+
+=head2 _build_extension
+
+The L</extension> builder. To be overridden in subclasses, if needed.
+
+=head2 _build_path
+
+The L</path> builder. To be overridden in subclasses, if needed.
 
 =cut
 

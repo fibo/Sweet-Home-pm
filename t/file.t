@@ -1,8 +1,9 @@
 use utf8;
 use strict;
 use warnings;
+use v5.12;
 
-use Test::More tests => 21;
+use Test::More tests => 25;
 
 use File::Spec::Functions;
 use File::Temp qw(tempdir);
@@ -33,7 +34,7 @@ ok $empty_file->has_zero_size, 'empty file has zero size';
 
 my $file1 = Sweet::File->new(
     name => 'file1.txt',
-    dir => $test_dir
+    dir => $test_dir,
 );
 my @file1_lines = ( 'Hi,', 'I am a text file.' );
 
@@ -68,4 +69,34 @@ ok $copied_file2->is_a_plain_file, 'copy_to_dir coerces ArrayRef to Sweet::Dir';
 
 my $copied_file3 = $file->copy_to_dir($temp_dir->sub_dir('bar'));
 ok $copied_file3->is_a_plain_file, 'copy_to_dir creates target dir';
+
+my $brand_new_file1 = Sweet::File->new(
+    name => 'brand_new_file1.txt',
+    dir => $temp_dir,
+    lines => \@file1_lines,
+);
+my @got_lines_in_brand_new_file1 = $brand_new_file1->lines;
+is_deeply \@got_lines_in_brand_new_file1, \@file1_lines, 'lines as constructor argument';
+
+$brand_new_file1->write;
+ok $brand_new_file1->is_a_plain_file, 'write';
+
+my @appended_lines = ('first appended line', 'second appended line');
+
+$brand_new_file1->append(\@appended_lines);
+
+# Create other instance of brand_new_file1.
+my $new_file1 = Sweet::File->new(
+  dir => $brand_new_file1->dir,
+  name => $brand_new_file1->name,
+);
+
+my @got_lines_in_new_file1 = $new_file1->lines;
+my @expected_lines_in_new_file1;
+push @expected_lines_in_new_file1, @file1_lines;
+push @expected_lines_in_new_file1, @appended_lines;
+is_deeply \@got_lines_in_new_file1, \@expected_lines_in_new_file1, 'append';
+
+my $expected_num_lines_in_new_file1 = scalar(@file1_lines) + scalar(@appended_lines);
+is $brand_new_file1->num_lines, $expected_num_lines_in_new_file1, 'append updates lines';
 

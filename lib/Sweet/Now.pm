@@ -6,7 +6,18 @@ use Time::Piece;
 
 has _localtime => (
     default => sub { localtime() },
-    handles  => [ qw(sec min ymd mdy mon hms mday tzoffset year) ],
+    handles  => [ qw(
+        hour
+        hms
+        min
+        mdy
+        mon
+        mday
+        sec
+        tzoffset
+        year
+        ymd
+        ) ],
     isa      => 'Time::Piece',
     is       => 'ro',
     required => 1,
@@ -14,9 +25,9 @@ has _localtime => (
 
 sub dd { sprintf "%02d", shift->mday }
 
-sub hh { sprintf "%02d", shift->_localtime->hour }
+sub hh { sprintf "%02d", shift->hour }
 
-sub mi { sprintf "%02d", shift->_localtime->min }
+sub mi { sprintf "%02d", shift->min }
 
 sub mm { sprintf "%02d", shift->mon }
 
@@ -40,7 +51,6 @@ sub yyyymmdd { shift->ymd('') }
 __PACKAGE__->meta->make_immutable;
 
 1;
-
 __END__
 
 =head1 NAME
@@ -57,7 +67,7 @@ Sweet::File
 
 =head2 _localtime
 
-Instance of a L<Time::Piece>.
+Instance of L<Time::Piece>.
 
 =head1 METHODS
 
@@ -65,7 +75,15 @@ Instance of a L<Time::Piece>.
 
 =head2 hh
 
+=head2 hour
+
+Delegated to L</_localtime>.
+
 =head2 mi
+
+=head2 min
+
+Delegated to L</_localtime>.
 
 =head2 mm
 
@@ -75,7 +93,11 @@ Instance of a L<Time::Piece>.
 
 =head2 tzoffset
 
-Delegated to L</_localtime>
+Delegated to L</_localtime>.
+
+=head2 year
+
+Delegated to L</_localtime>.
 
 =head2 yyyy
 
