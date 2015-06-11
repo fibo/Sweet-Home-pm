@@ -6,7 +6,7 @@ use ExtUtils::MakeMaker 6.64;
 WriteMakefile(
     ABSTRACT_FROM    => 'lib/Sweet/Home.pm',
     VERSION_FROM     => 'lib/Sweet/Home.pm',
-    AUTHOR           => 'G. Casati <fibo@cpan.org>',
+    AUTHOR           => 'Gianluca Casati <fibo@cpan.org>',
     NAME             => 'Sweet::Home',
     LICENSE          => 'artistic_2',
     MIN_PERL_VERSION => '5.12.0',
@@ -31,6 +31,7 @@ WriteMakefile(
         'namespace::autoclean'       => '0.24',
         'Net::SFTP::Foreign'         => '1.77',
         'Time::Piece'                => '1.27',
+        'UNIVERSAL::require'         => '0.18',
     },
     BUILD_REQUIRES => {
         'ExtUtils::MakeMaker' => '6.64',
