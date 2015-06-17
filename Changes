@@ -1,4 +1,8 @@
 
+0.06 2015-0x-xx
++ Added Sweet::DatabaseConnection
++ Added Sweet::Config and Sweet::Config::File
+
 0.05 2015-05-19
 + Removed File::Slurp::Tiny,
 + Changed Changes file format

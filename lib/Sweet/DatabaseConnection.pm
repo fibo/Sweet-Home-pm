@@ -13,7 +13,6 @@ has connection_attributes => (
 sub _build_connection_attributes {
     return {
         PrintError  => 1,
-        ora_charset => 'AL32UTF8',
     }
 }
 
@@ -52,6 +51,15 @@ __END__
 =head1 NAME
 
 Sweet::DatabaseConnection
+
+=head1 SYNOPSIS
+
+    package My::DatabaseConnection;
+    use Moose;
+
+    extends 'Sweet::DatabaseConnection';
+
+    with 'Sweet::Config';
 
 =head1 ATTRIBUTES
 
