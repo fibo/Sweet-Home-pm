@@ -1,5 +1,6 @@
 
-0.06 2015-0x-xx
+0.06 2015-06-19
++ Support Perl v5.10.0
 + Added Sweet::DatabaseConnection
 + Added Sweet::Config and Sweet::Config::File
 

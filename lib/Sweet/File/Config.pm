@@ -1,5 +1,4 @@
 package Sweet::File::Config;
-use v5.12;
 use Moose;
 use namespace::autoclean;
 
@@ -7,19 +6,9 @@ use Carp;
 use Sweet::HomeDir;
 use YAML;
 
-=head1 EREDITARIETÀ
-
-L<Sweet::File>
-
-=cut
-
 extends 'Sweet::File';
 
 sub _build_dir { Sweet::HomeDir->new }
-
-=head1 ATTRIBUTES
-
-=cut
 
 has content => (
     is         => 'ro',
@@ -46,6 +35,12 @@ __END__
 =head1 NAME
 
 Sweet::File::Config
+
+=head1 INHERITANCE
+
+L<Sweet::File>
+
+=cut
 
 =head1 ATTRIBUTES
 

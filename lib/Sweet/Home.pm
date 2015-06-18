@@ -43,12 +43,6 @@ This package provides a set of features to make you feel comfortable when workin
 
 It is just syntactic sugar on top of packages like L<File::Basename>, L<File::Copy>, L<File::HomeDir>, L<File::Path>, L<File::Remove>, L<File::Spec>, etc.
 
-=head1 SUGAR ADDED
-
-Perl version greater than C<v5.12> is supported.
-
-File encoding defaults to utf8.
-
 =head1 CODE COVERAGE
 
 Code coverage metrics report available L<here|http://g14n.info/Sweet-Home-pm/code/coverage.html>
@@ -56,6 +50,8 @@ Code coverage metrics report available L<here|http://g14n.info/Sweet-Home-pm/cod
 =head1 CLASSES
 
 =over 4
+
+=item L<Sweet::DatabaseConnection>
 
 =item L<Sweet::Dir>
 
@@ -68,6 +64,10 @@ Code coverage metrics report available L<here|http://g14n.info/Sweet-Home-pm/cod
 =item L<Sweet::File::Semaphore>
 
 =item L<Sweet::HomeDir>
+
+=item L<Sweet::Now>
+
+=item L<Sweet::Schema>
 
 =item L<Sweet::SFTP>
 

@@ -1,5 +1,4 @@
 package Sweet::DatabaseConnection;
-use v5.12;
 use Moose;
 use namespace::autoclean;
 
