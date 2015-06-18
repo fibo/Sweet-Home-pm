@@ -1,5 +1,4 @@
 package Sweet::Schema;
-use v5.12;
 use Moose::Role;
 
 use Carp;

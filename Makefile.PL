@@ -9,7 +9,7 @@ WriteMakefile(
     AUTHOR           => 'Gianluca Casati <fibo@cpan.org>',
     NAME             => 'Sweet::Home',
     LICENSE          => 'artistic_2',
-    MIN_PERL_VERSION => '5.12.0',
+    MIN_PERL_VERSION => '5.10.0',
     META_MERGE       => {
         resources => {
             homepage   => 'https://metacpan.org/pod/Sweet::Home',

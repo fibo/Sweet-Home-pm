@@ -1,5 +1,4 @@
 package Sweet::SFTP;
-use v5.12;
 use Moose;
 use namespace::autoclean;
 

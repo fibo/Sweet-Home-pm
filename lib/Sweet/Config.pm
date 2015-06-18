@@ -1,8 +1,8 @@
 package Sweet::Config;
-use v5.12;
 use Moose::Role;
 use namespace::autoclean;
 
+use Carp;
 use UNIVERSAL::require;
 
 requires qw(file_config);
