@@ -1,18 +1,20 @@
 package Sweet::File;
+use latest;
 use Moose;
-use namespace::autoclean;
 
 use Carp;
-use Try::Tiny;
-
 use File::Basename;
 use File::Copy;
 use File::Remove 'remove';
 use File::Spec;
 use Moose::Util::TypeConstraints;
+use MooseX::AttributeShortcuts;
 use MooseX::Types::Path::Class;
 use Sweet::Types;
 use Storable qw(dclone);
+use Try::Tiny;
+
+use namespace::autoclean;
 
 sub BUILDARGS {
     my ($class, %attribute) = @_;
@@ -82,7 +84,6 @@ has dir => (
     is        => 'ro',
     isa       => 'Sweet::Dir',
     lazy      => 1,
-    predicate => 'has_dir',
 );
 
 sub _build_dir {
@@ -108,10 +109,8 @@ has encoding => (
 );
 
 has name => (
-    builder => '_build_name',
-    is      => 'ro',
+    is      => 'lazy',
     isa     => 'Str',
-    lazy    => 1,
 );
 
 sub _build_name {
@@ -124,11 +123,15 @@ sub _build_name {
     return $name;
 }
 
+has name_without_extension => (
+    default => sub { (fileparse( shift->path, qr/\.[^.]*$/ ))[0] },
+    is   => 'lazy',
+    isa  => 'Str',
+);
+
 has extension => (
-    builder => '_build_extension',
-    is      => 'ro',
+    is      => 'lazy',
     isa     => 'Str',
-    lazy    => 1,
 );
 
 sub _build_extension {
@@ -275,7 +278,7 @@ Sweet::File
 
 =head2 dir
 
-Instance of L<Sweet::Dir>.
+Instance of L<Sweet::Dir>. If not provided, depends on L</path>.
 
 =head2 encoding
 
@@ -285,7 +288,13 @@ Defaults to C<utf8>.
 
 =head2 name
 
+A string containing the file name. If not provided, depends on L</path>.
+
+=head2 name_without_extension
+
 =head2 path
+
+Instance of L<Path::Class::File>. If not provided, depends on L</dir> and L</name>.
 
 =head1 PRIVATE ATTRIBUTES
 

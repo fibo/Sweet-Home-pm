@@ -1,18 +1,19 @@
 package Sweet::File::Config;
+use latest;
 use Moose;
-use namespace::autoclean;
 
 use Carp;
+use MooseX::AttributeShortcuts;
 use Sweet::HomeDir;
 use YAML;
+use namespace::autoclean;
 
 extends 'Sweet::File';
 
 sub _build_dir { Sweet::HomeDir->new }
 
 has content => (
-    is         => 'ro',
-    lazy_build => 1,
+    is         => 'lazy',
     isa        => 'HashRef',
 );
 
@@ -29,7 +30,6 @@ sub _build_content {
 
 __PACKAGE__->meta->make_immutable;
 
-1;
 __END__
 
 =head1 NAME

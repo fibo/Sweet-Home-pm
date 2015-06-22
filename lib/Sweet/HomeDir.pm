@@ -1,8 +1,10 @@
 package Sweet::HomeDir;
+use latest;
 use Moose;
-use namespace::autoclean;
 
 use File::HomeDir;
+
+use namespace::autoclean;
 
 extends 'Sweet::Dir';
 

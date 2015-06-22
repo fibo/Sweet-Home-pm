@@ -1,15 +1,14 @@
 package Sweet::Dir;
+use latest;
 use Moose;
-use namespace::autoclean;
 
 use Carp;
-use Try::Tiny;
-
-use MooseX::Types::Path::Class;
 use File::Path qw(make_path remove_tree);
+use MooseX::Types::Path::Class;
+use Sweet::File;
 use Try::Tiny;
 
-use Sweet::File;
+use namespace::autoclean;
 
 has path => (
     builder => '_build_path',
@@ -117,7 +116,6 @@ use overload q("") => sub { shift->path }, bool => sub { 1 }, fallback => 1;
 
 __PACKAGE__->meta->make_immutable;
 
-1;
 __END__
 
 =head1 NAME

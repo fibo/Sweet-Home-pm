@@ -1,4 +1,5 @@
 package Sweet::File::CSV;
+use latest;
 use Moose;
 use namespace::autoclean;
 

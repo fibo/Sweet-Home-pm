@@ -1,12 +1,14 @@
 package Sweet::DatabaseConnection;
+use latest;
 use Moose;
+
+use MooseX::AttributeShortcuts;
+
 use namespace::autoclean;
 
 has connection_attributes => (
-    builder => '_build_connection_attributes',
-    is      => 'ro',
+    is      => 'lazy',
     isa     => 'HashRef',
-    lazy    => 1,
 );
 
 sub _build_connection_attributes {
@@ -16,35 +18,28 @@ sub _build_connection_attributes {
 }
 
 has datasource => (
-    builder => '_build_datasource',
-    is      => 'ro',
+    is      => 'lazy',
     isa     => 'Str',
-    lazy    => 1,
 );
 
 sub _build_datasource { shift->config->{datasource} }
 
 has username => (
-    builder => '_build_username',
-    is      => 'ro',
+    is      => 'lazy',
     isa     => 'Str',
-    lazy    => 1,
 );
 
 sub _build_username { shift->config->{username} }
 
 has password => (
-    builder => '_build_password',
-    is      => 'ro',
+    is      => 'lazy',
     isa     => 'Str',
-    lazy    => 1,
 );
 
 sub _build_password { shift->config->{password} }
 
 __PACKAGE__->meta->make_immutable;
 
-1;
 __END__
 
 =head1 NAME

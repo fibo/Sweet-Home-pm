@@ -1,9 +1,13 @@
 package Sweet::File::DSV;
+use latest;
 use Moose;
-use namespace::autoclean;
 
 use Carp;
+use MooseX::AttributeShortcuts;
 use Try::Tiny;
+
+use namespace::autoclean;
+
 
 extends 'Sweet::File';
 
@@ -122,10 +126,8 @@ sub _build_header {
 }
 
 has separator => (
-    builder => '_build_separator',
-    is      => 'ro',
+    is      => 'lazy',
     isa     => 'Str',
-    lazy    => 1,
 );
 
 has _rows => (

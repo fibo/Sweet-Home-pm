@@ -1,10 +1,13 @@
 package Sweet::File::Semaphore;
+use latest;
 use Moose;
+
+use MooseX::AttributeShortcuts;
+use Sweet::Types;
+
 use namespace::autoclean;
 
 extends 'Sweet::File';
-
-use Sweet::Types;
 
 has linked_file => (
     is       => 'ro',
@@ -31,8 +34,6 @@ sub _build_name {
 }
 
 __PACKAGE__->meta->make_immutable;
-
-1;
 
 __END__
 

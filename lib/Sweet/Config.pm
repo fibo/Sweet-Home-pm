@@ -1,11 +1,13 @@
 package Sweet::Config;
+use latest;
 use Moose::Role;
-use namespace::autoclean;
 
 use Carp;
 use UNIVERSAL::require;
 
-requires qw(file_config);
+use namespace::autoclean;
+
+requires qw(file_config_classname);
 
 has config => (
     default => sub {
@@ -13,7 +15,7 @@ has config => (
 
         my @namespace = @{ $self->_config_namespace };
 
-        my $file_config = $self->file_config;
+        my $file_config = $self->_file_config;
 
         my $config = $file_config->content;
 
@@ -34,13 +36,21 @@ has config => (
     lazy => 1,
 );
 
-=head1 ATTRIBUTI PRIVATI
+has _file_config => (
+    default => sub {
+        my $self = shift;
 
-=cut
+        my $file_config_classname = $self->file_config_classname;
+        $file_config_classname->require;
 
-=head2 _config_namespace
+        my $file_config = $file_config_classname->new;
 
-=cut
+        return $file_config;
+    },
+    is   => 'ro',
+    isa  => 'Sweet::File::Config',
+    lazy => 1,
+);
 
 has _config_namespace => (
     builder => '_build_config_namespace',
@@ -60,9 +70,20 @@ sub _build_config_namespace {
 }
 
 1;
+
 __END__
 
+=head1 NAME
+
+Sweet::Config
+
+=head1 ATTRIBUTES
+
 =head2 config
+
+=head1 PRIVATE ATTRIBUTES
+
+=head2 _config_namespace
 
 =cut
 

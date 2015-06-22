@@ -2,7 +2,7 @@ use utf8;
 use strict;
 use warnings;
 
-use Test::More tests => 25;
+use Test::More tests => 26;
 
 use File::Spec::Functions;
 use File::Temp qw(tempdir);
@@ -16,10 +16,12 @@ my $file = Sweet::File->new( name => 'file.t', dir => $test_dir );
 ok $file->is_a_plain_file, 'is_a_plain_file';
 ok $file->is_writable, 'is_writable';
 
+
 is "$file", catfile( 't', 'file.t' ), 'stringify to path';
 
 is $file->path, catfile( 't', 'file.t' ), 'path';
 is $file->extension, 't', 'extension';
+is $file->name_without_extension, 'file', 'name_without_extension';
 
 my $file_touched = Sweet::File->new( name => 'file_touched', dir => $test_dir );
 ok $file_touched->does_not_exists, 'touched file does not exists yet';

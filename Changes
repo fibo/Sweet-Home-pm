@@ -1,11 +1,13 @@
 
-0.06 2015-06-19
-+ Support Perl v5.10.0
+0.06 2015-06-xx
++ Use MooseX::AttributeShortcuts
++ Use latest
++ Added Sweet::File->name_without_extension
 + Added Sweet::DatabaseConnection
 + Added Sweet::Config and Sweet::Config::File
 
 0.05 2015-05-19
-+ Removed File::Slurp::Tiny,
++ Removed File::Slurp::Tiny
 + Changed Changes file format
 + Added Sweet::SFTP
 + Added Sweet::Now
