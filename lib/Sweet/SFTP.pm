@@ -22,7 +22,7 @@ has username => (
 );
 
 has password => (
-    builder => '_build_username',
+    builder => '_build_password',
     is      => 'ro',
     isa     => 'Str',
     lazy    => 1,
