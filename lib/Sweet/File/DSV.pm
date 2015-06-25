@@ -8,7 +8,6 @@ use Try::Tiny;
 
 use namespace::autoclean;
 
-
 extends 'Sweet::File';
 
 sub BUILDARGS {

@@ -408,6 +408,7 @@ Write lines to a brand new file.
 =head2 _build_lines
 
 The L</lines> builder. To be overridden in subclasses, if needed.
+It opens a filehandle, put it in an array, L<chomp> it and returns the array reference.
 
 =head2 _build_dir
 
