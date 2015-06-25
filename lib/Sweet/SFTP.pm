@@ -1,38 +1,31 @@
 package Sweet::SFTP;
 use Moose;
-use namespace::autoclean;
 
+use MooseX::AttributeShortcuts;
 use Carp;
+use Net::SFTP::Foreign;
 use Try::Tiny;
 
-use Net::SFTP::Foreign;
+use namespace::autoclean;
 
 has hostname => (
-    builder => '_build_hostname',
-    is      => 'ro',
+    is      => 'lazy',
     isa     => 'Str',
-    lazy    => 1,
 );
 
 has username => (
-    builder => '_build_username',
-    is      => 'ro',
+    is      => 'lazy',
     isa     => 'Str',
-    lazy    => 1,
 );
 
 has password => (
-    builder => '_build_password',
-    is      => 'ro',
+    is      => 'lazy',
     isa     => 'Str',
-    lazy    => 1,
 );
 
 has session => (
-    builder => '_build_session',
-    is      => 'ro',
+    is      => 'lazy',
     isa     => 'Net::SFTP::Foreign',
-    lazy    => 1,
 );
 
 sub _build_session {
@@ -58,8 +51,6 @@ sub _build_session {
 }
 
 __PACKAGE__->meta->make_immutable;
-
-1;
 
 __END__
 
