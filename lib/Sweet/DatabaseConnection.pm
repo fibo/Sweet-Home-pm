@@ -22,21 +22,15 @@ has datasource => (
     isa     => 'Str',
 );
 
-sub _build_datasource { shift->config->{datasource} }
-
 has username => (
     is      => 'lazy',
     isa     => 'Str',
 );
 
-sub _build_username { shift->config->{username} }
-
 has password => (
     is      => 'lazy',
     isa     => 'Str',
 );
-
-sub _build_password { shift->config->{password} }
 
 __PACKAGE__->meta->make_immutable;
 
