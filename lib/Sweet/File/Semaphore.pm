@@ -2,8 +2,9 @@ package Sweet::File::Semaphore;
 use latest;
 use Moose;
 
-use MooseX::AttributeShortcuts;
 use Sweet::Types;
+
+use MooseX::AttributeShortcuts;
 
 use namespace::autoclean;
 
@@ -12,7 +13,6 @@ extends 'Sweet::File';
 has linked_file => (
     is       => 'ro',
     isa      => 'Sweet::File',
-    coerce   => 1,
     required => 1,
 );
 

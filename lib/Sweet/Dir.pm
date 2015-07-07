@@ -2,6 +2,8 @@ package Sweet::Dir;
 use latest;
 use Moose;
 
+use Sweet::Types;
+
 use Carp;
 use File::Path qw(make_path remove_tree);
 use MooseX::Types::Path::Class;

@@ -2,15 +2,15 @@ package Sweet::File;
 use latest;
 use Moose;
 
+use Sweet::Types;
+
 use Carp;
 use File::Basename;
 use File::Copy;
 use File::Remove 'remove';
 use File::Spec;
 use Moose::Util::TypeConstraints;
-use MooseX::AttributeShortcuts;
 use MooseX::Types::Path::Class;
-use Sweet::Types;
 use Storable qw(dclone);
 use Try::Tiny;
 
@@ -109,8 +109,10 @@ has encoding => (
 );
 
 has name => (
-    is      => 'lazy',
+    builder => '_build_name',
+    is      => 'ro',
     isa     => 'Str',
+    lazy => 1,
 );
 
 sub _build_name {
@@ -125,13 +127,16 @@ sub _build_name {
 
 has name_without_extension => (
     default => sub { (fileparse( shift->path, qr/\.[^.]*$/ ))[0] },
-    is   => 'lazy',
+    is   => 'ro',
     isa  => 'Str',
+    lazy => 1,
 );
 
 has extension => (
-    is      => 'lazy',
+builder => '_build_extension',
+    is      => 'ro',
     isa     => 'Str',
+    lazy=>1,
 );
 
 sub _build_extension {
