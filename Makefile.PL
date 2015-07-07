@@ -32,6 +32,7 @@ WriteMakefile(
         'MooseX::Types::Path::Class'  => '0.06',
         'namespace::autoclean'        => '0.24',
         'Net::SFTP::Foreign'          => '1.77',
+        'Template'                    => '2.26',
         'Time::Piece'                 => '1.27',
         'UNIVERSAL::require'          => '0.18',
     },

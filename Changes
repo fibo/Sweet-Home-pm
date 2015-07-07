@@ -1,5 +1,6 @@
 
 0.06 2015-07-xx
++ Added Sweet::File::Template
 + Use MooseX::AttributeShortcuts
 + Use latest
 + Added Sweet::File->name_without_extension
