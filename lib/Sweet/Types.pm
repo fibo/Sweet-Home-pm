@@ -3,8 +3,8 @@ use strict;
 use warnings;
 
 use MooseX::Types;
-
 use MooseX::Types::Moose qw(Str ArrayRef);
+use Sweet::Dir;
 
 class_type('Sweet::Dir');
 
