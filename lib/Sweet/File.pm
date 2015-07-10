@@ -10,6 +10,7 @@ use File::Copy;
 use File::Remove 'remove';
 use File::Spec;
 use Moose::Util::TypeConstraints;
+use MooseX::AttributeShortcuts;
 use MooseX::Types::Path::Class;
 use Storable qw(dclone);
 use Try::Tiny;
@@ -53,6 +54,7 @@ my $input = sub {
     return \@lines;
 };
 
+# TODO lines should not be in generic Sweet::File, but a C<content> attribute
 has _lines => (
     builder => '_build_lines',
     handles => {
@@ -61,9 +63,8 @@ has _lines => (
         line      => 'get',
         num_lines => 'count',
     },
-    is     => 'ro',
+    is     => 'lazy',
     isa    => 'ArrayRef[Str]',
-    lazy   => 1,
     traits => ['Array'],
 );
 
@@ -79,11 +80,9 @@ sub _build_lines {
 }
 
 has dir => (
-    builder   => '_build_dir',
     coerce    => 1,
-    is        => 'ro',
+    is        => 'lazy',
     isa       => 'Sweet::Dir',
-    lazy      => 1,
 );
 
 sub _build_dir {
@@ -109,10 +108,8 @@ has encoding => (
 );
 
 has name => (
-    builder => '_build_name',
-    is      => 'ro',
+    is      => 'lazy',
     isa     => 'Str',
-    lazy => 1,
 );
 
 sub _build_name {
@@ -126,17 +123,15 @@ sub _build_name {
 }
 
 has name_without_extension => (
-    default => sub { (fileparse( shift->path, qr/\.[^.]*$/ ))[0] },
-    is   => 'ro',
-    isa  => 'Str',
-    lazy => 1,
+    default  => sub { ( fileparse( shift->path, qr/\.[^.]*$/ ) )[0] },
+    init_arg => undef,
+    is       => 'lazy',
+    isa      => 'Str',
 );
 
 has extension => (
-builder => '_build_extension',
-    is      => 'ro',
+    is      => 'lazy',
     isa     => 'Str',
-    lazy=>1,
 );
 
 sub _build_extension {
@@ -148,11 +143,9 @@ sub _build_extension {
 }
 
 has path => (
-    builder => '_build_path',
     coerce  => 1,
-    is      => 'ro',
+    is      => 'lazy',
     isa     => 'Path::Class::File',
-    lazy    => 1,
 );
 
 sub _build_path {
@@ -179,6 +172,12 @@ sub append {
     my $path     = $self->path;
 
     $output->('>>', $encoding, $path, $lines_arrayref);
+}
+
+sub move_to_dir {
+    my ($self, $dir) = @_;
+
+    $self->copy_to_dir($dir) && $self->erase;
 }
 
 sub copy_to_dir {
@@ -377,6 +376,16 @@ Returns the nth line.
         $line =~ s/foo/bar/;
         say $line;
     }
+
+=head2 move_to_dir
+
+Move file to a directory.
+
+    $file->move_to_dir($dir);
+
+It is just a shortcut to
+
+    $file->copy_to_dir($dir) && $file->erase;
 
 =head2 num_lines
 

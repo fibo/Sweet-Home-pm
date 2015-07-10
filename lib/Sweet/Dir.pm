@@ -6,6 +6,7 @@ use Sweet::Types;
 
 use Carp;
 use File::Path qw(make_path remove_tree);
+use MooseX::AttributeShortcuts;
 use MooseX::Types::Path::Class;
 use Sweet::File;
 use Try::Tiny;
@@ -13,11 +14,9 @@ use Try::Tiny;
 use namespace::autoclean;
 
 has path => (
-    builder => '_build_path',
     coerce  => 1,
-    is      => 'ro',
+    is      => 'lazy',
     isa     => 'Path::Class::Dir',
-    lazy    => 1,
 );
 
 sub create {
@@ -130,7 +129,6 @@ Sweet::Dir
 
     my $dir = Sweet::Dir->new(path => '/path/to/dir');
     $dir->create;
-
 
     say $dir; # /path/to/dir
 
