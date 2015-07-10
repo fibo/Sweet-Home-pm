@@ -95,7 +95,6 @@ sub _build_lines {
     return \@lines;
 }
 
-use Data::Dumper;
 sub process {
     my $self = shift;
 
@@ -104,7 +103,6 @@ sub process {
     my $template_name = $self->template_name;
     my $template_vars = $self->template_vars;
 
-    say Dumper($template_vars);
     $template->process( $template_name, $template_vars, \$output )
       or die $Template::ERROR, "\n";
 
