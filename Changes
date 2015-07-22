@@ -1,4 +1,7 @@
 
+0.07 
++ Added YAML as a dependency, otherwise Sweet::File::Config will not compile
+
 0.06 2015-07-10
 + Added Sweet::File->move_to_dir
 + Added Sweet::File::Template

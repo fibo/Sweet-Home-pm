@@ -2,7 +2,7 @@ package Sweet::Home;
 use strict;
 use warnings;
 
-our $VERSION = '0.06';
+our $VERSION = '0.07';
 
 1;
 __END__
@@ -56,6 +56,8 @@ Code coverage metrics report available L<here|http://g14n.info/Sweet-Home-pm/cod
 =item L<Sweet::Dir>
 
 =item L<Sweet::File>
+
+=item L<Sweet::File::Config>
 
 =item L<Sweet::File::DSV>
 

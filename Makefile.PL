@@ -35,6 +35,7 @@ WriteMakefile(
         'Template'                    => '2.26',
         'Time::Piece'                 => '1.27',
         'UNIVERSAL::require'          => '0.18',
+        'YAML'                        => '1.15',
     },
     BUILD_REQUIRES => {
         'ExtUtils::MakeMaker' => '6.64',
